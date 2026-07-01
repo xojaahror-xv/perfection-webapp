@@ -1,0 +1,3230 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Perfection School - Admin Dashboard</title>
+
+    <!-- Phosphor Icons -->
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root {
+
+            --primary: #6366f1;
+
+            --primary-hover: #4f46e5;
+
+            --primary-light: rgba(99, 102, 241, 0.1);
+
+            --success: #10b981;
+
+            --success-hover: #059669;
+
+            --danger: #ef4444;
+
+            --danger-hover: #dc2626;
+
+            --warning: #f59e0b;
+
+            --info: #3b82f6;
+
+            --bg-main: #f8fafc;
+
+            --bg-card: #ffffff;
+
+            --sidebar-bg: #0f172a;
+
+            --sidebar-text: #94a3b8;
+
+            --sidebar-active-bg: #1e293b;
+
+            --sidebar-active-text: #ffffff;
+
+            --text-main: #1e293b;
+
+            --text-muted: #64748b;
+
+            --border: #e2e8f0;
+
+            --radius-sm: 8px;
+
+            --radius-md: 12px;
+
+            --radius-lg: 16px;
+
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+        }
+
+
+
+        * {
+
+            box-sizing: border-box;
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
+
+
+        body {
+
+            font-family: 'Inter', sans-serif;
+
+            background-color: var(--bg-main);
+
+            color: var(--text-main);
+
+            display: flex;
+
+            min-height: 100vh;
+
+            overflow-x: hidden;
+
+        }
+
+
+
+        /* Sidebar */
+
+        .sidebar {
+
+            width: 260px;
+
+            background-color: var(--sidebar-bg);
+
+            color: var(--sidebar-text);
+
+            display: flex;
+
+            flex-direction: column;
+
+            padding: 24px 16px;
+
+            position: fixed;
+
+            top: 0;
+
+            bottom: 0;
+
+            left: 0;
+
+            z-index: 100;
+
+            transition: var(--transition);
+
+        }
+
+
+
+        .sidebar-brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 0 12px 24px 12px;
+
+            border-bottom: 1px solid #1e293b;
+
+            margin-bottom: 24px;
+
+        }
+
+
+
+        .sidebar-brand i {
+
+            font-size: 28px;
+
+            color: var(--primary);
+
+        }
+
+
+
+        .sidebar-brand h2 {
+
+            font-size: 18px;
+
+            font-weight: 800;
+
+            color: #ffffff;
+
+            letter-spacing: -0.5px;
+
+        }
+
+
+
+        .sidebar-menu {
+
+            list-style: none;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 6px;
+
+        }
+
+
+
+        .menu-item a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 12px;
+
+            border-radius: var(--radius-sm);
+
+            color: var(--sidebar-text);
+
+            text-decoration: none;
+
+            font-weight: 500;
+
+            font-size: 14px;
+
+            transition: var(--transition);
+
+            cursor: pointer;
+
+        }
+
+
+
+        .menu-item a:hover {
+
+            color: #ffffff;
+
+            background-color: rgba(255, 255, 255, 0.05);
+
+        }
+
+
+
+        .menu-item.active a {
+
+            background-color: var(--primary);
+
+            color: #ffffff;
+
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+
+        }
+
+
+
+        .sidebar-footer {
+
+            margin-top: auto;
+
+            padding-top: 24px;
+
+            border-top: 1px solid #1e293b;
+
+            font-size: 12px;
+
+            color: #475569;
+
+            text-align: center;
+
+        }
+
+
+
+        /* Main Workspace */
+
+        .main-content {
+
+            margin-left: 260px;
+
+            flex: 1;
+
+            padding: 40px;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            flex-direction: column;
+
+            transition: var(--transition);
+
+        }
+
+
+
+        /* Top Header */
+
+        .top-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 32px;
+
+        }
+
+
+
+        .top-header h1 {
+
+            font-size: 28px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.5px;
+
+        }
+
+
+
+        .header-actions {
+
+            display: flex;
+
+            gap: 12px;
+
+            align-items: center;
+
+        }
+
+
+
+        /* Buttons */
+
+        .btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            padding: 10px 18px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            border-radius: var(--radius-sm);
+
+            border: none;
+
+            cursor: pointer;
+
+            transition: var(--transition);
+
+            font-family: inherit;
+
+        }
+
+
+
+        .btn-primary {
+
+            background-color: var(--primary);
+
+            color: #ffffff;
+
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+
+        }
+
+
+
+        .btn-primary:hover {
+
+            background-color: var(--primary-hover);
+
+        }
+
+
+
+        .btn-success {
+
+            background-color: var(--success);
+
+            color: #ffffff;
+
+        }
+
+
+
+        .btn-success:hover {
+
+            background-color: var(--success-hover);
+
+        }
+
+
+
+        .btn-danger {
+
+            background-color: var(--danger);
+
+            color: #ffffff;
+
+        }
+
+
+
+        .btn-danger:hover {
+
+            background-color: var(--danger-hover);
+
+        }
+
+
+
+        .btn-outline {
+
+            background-color: transparent;
+
+            border: 1px solid var(--border);
+
+            color: var(--text-main);
+
+        }
+
+
+
+        .btn-outline:hover {
+
+            background-color: var(--border);
+
+        }
+
+
+
+        .btn-sm {
+
+            padding: 6px 12px;
+
+            font-size: 12px;
+
+            border-radius: 6px;
+
+        }
+
+
+
+        /* Cards */
+
+        .card {
+
+            background-color: var(--bg-card);
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-md);
+
+            padding: 24px;
+
+            box-shadow: var(--shadow);
+
+            margin-bottom: 24px;
+
+            transition: var(--transition);
+
+        }
+
+
+
+        /* Stats Grid */
+
+        .stats-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+            gap: 20px;
+
+            margin-bottom: 32px;
+
+        }
+
+
+
+        .stat-card {
+
+            background-color: var(--bg-card);
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-md);
+
+            padding: 24px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            box-shadow: var(--shadow);
+
+        }
+
+
+
+        .stat-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            border-radius: var(--radius-sm);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 24px;
+
+        }
+
+
+
+        .stat-icon.primary { background-color: var(--primary-light); color: var(--primary); }
+
+        .stat-icon.success { background-color: rgba(16, 185, 129, 0.1); color: var(--success); }
+
+        .stat-icon.warning { background-color: rgba(245, 158, 11, 0.1); color: var(--warning); }
+
+        .stat-icon.info { background-color: rgba(59, 130, 246, 0.1); color: var(--info); }
+
+
+
+        .stat-details h3 {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: var(--text-muted);
+
+            text-transform: uppercase;
+
+            margin-bottom: 4px;
+
+        }
+
+
+
+        .stat-details p {
+
+            font-size: 24px;
+
+            font-weight: 800;
+
+            color: var(--text-main);
+
+        }
+
+
+
+        /* Panels */
+
+        .admin-panel {
+
+            display: none;
+
+        }
+
+
+
+        .admin-panel.active {
+
+            display: block;
+
+            animation: fadeIn 0.3s ease;
+
+        }
+
+
+
+        @keyframes fadeIn {
+
+            from { opacity: 0; transform: translateY(8px); }
+
+            to { opacity: 1; transform: translateY(0); }
+
+        }
+
+
+
+        /* Table Design */
+
+        .table-responsive {
+
+            width: 100%;
+
+            overflow-x: auto;
+
+            border-radius: var(--radius-sm);
+
+            border: 1px solid var(--border);
+
+        }
+
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            text-align: left;
+
+            font-size: 14px;
+
+        }
+
+
+
+        th {
+
+            background-color: #f1f5f9;
+
+            color: var(--text-muted);
+
+            font-weight: 600;
+
+            padding: 14px 16px;
+
+            border-bottom: 1px solid var(--border);
+
+        }
+
+
+
+        td {
+
+            padding: 14px 16px;
+
+            border-bottom: 1px solid var(--border);
+
+            color: var(--text-main);
+
+            vertical-align: middle;
+
+        }
+
+
+
+        tr:last-child td {
+
+            border-bottom: none;
+
+        }
+
+
+
+        tr:hover td {
+
+            background-color: #f8fafc;
+
+        }
+
+
+
+        /* Form Design */
+
+        .form-row {
+
+            display: flex;
+
+            gap: 16px;
+
+            margin-bottom: 16px;
+
+        }
+
+
+
+        .form-col {
+
+            flex: 1;
+
+        }
+
+
+
+        .form-group {
+
+            margin-bottom: 16px;
+
+        }
+
+
+
+        .form-group label {
+
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: var(--text-main);
+
+            margin-bottom: 6px;
+
+        }
+
+
+
+        .form-group input,
+
+        .form-group select,
+
+        .form-group textarea {
+
+            width: 100%;
+
+            padding: 10px 14px;
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-sm);
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            background-color: #ffffff;
+
+            color: var(--text-main);
+
+            transition: var(--transition);
+
+        }
+
+
+
+        .form-group input:focus,
+
+        .form-group select:focus,
+
+        .form-group textarea:focus {
+
+            outline: none;
+
+            border-color: var(--primary);
+
+            box-shadow: 0 0 0 3px var(--primary-light);
+
+        }
+
+
+
+        /* Search / Filter Section */
+
+        .filter-row {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        .search-input-wrapper {
+
+            position: relative;
+
+            flex: 1;
+
+        }
+
+
+
+        .search-input-wrapper i {
+
+            position: absolute;
+
+            left: 12px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: var(--text-muted);
+
+        }
+
+
+
+        .search-input-wrapper input {
+
+            padding-left: 36px !important;
+
+        }
+
+
+
+        /* Dialogs / Collapsible form */
+
+        .collapsible-form {
+
+            max-height: 0;
+
+            overflow: hidden;
+
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+
+            border: 1px solid transparent;
+
+            border-radius: var(--radius-md);
+
+            background-color: #ffffff;
+
+            margin-bottom: 0;
+
+        }
+
+
+
+        .collapsible-form.open {
+
+            max-height: 2000px;
+
+            padding: 24px;
+
+            border-color: var(--border);
+
+            margin-bottom: 24px;
+
+            box-shadow: var(--shadow);
+
+        }
+
+
+
+        /* Question Form Cards */
+
+        .question-card {
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-sm);
+
+            padding: 16px;
+
+            margin-bottom: 12px;
+
+            background-color: #f8fafc;
+
+            position: relative;
+
+        }
+
+
+
+        .question-card-title {
+
+            font-weight: 700;
+
+            font-size: 13px;
+
+            margin-bottom: 12px;
+
+            color: var(--primary);
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+
+        .remove-question-btn {
+
+            color: var(--danger);
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+        }
+
+
+
+        /* Badges */
+
+        .badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            padding: 4px 8px;
+
+            border-radius: 9999px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            text-transform: uppercase;
+
+        }
+
+
+
+        .badge-primary { background-color: var(--primary-light); color: var(--primary); }
+
+        .badge-success { background-color: rgba(16, 185, 129, 0.1); color: var(--success); }
+
+        .badge-warning { background-color: rgba(245, 158, 11, 0.1); color: var(--warning); }
+
+        .badge-danger { background-color: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+
+
+        /* Loader Overlay */
+
+        .loader-overlay {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            right: 0;
+
+            bottom: 0;
+
+            background-color: rgba(15, 23, 42, 0.7);
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-direction: column;
+
+            z-index: 1000;
+
+            color: #ffffff;
+
+            backdrop-filter: blur(4px);
+
+        }
+
+
+
+        .loader-spinner {
+
+            width: 48px;
+
+            height: 48px;
+
+            border: 4px solid rgba(255, 255, 255, 0.3);
+
+            border-top-color: #ffffff;
+
+            border-radius: 50%;
+
+            animation: spin 1s linear infinite;
+
+            margin-bottom: 16px;
+
+        }
+
+
+
+        @keyframes spin {
+
+            to { transform: rotate(360deg); }
+
+        }
+
+
+
+        /* Toast Message */
+
+        .toast {
+
+            position: fixed;
+
+            bottom: 24px;
+
+            right: 24px;
+
+            background-color: var(--sidebar-bg);
+
+            color: #ffffff;
+
+            padding: 12px 24px;
+
+            border-radius: var(--radius-sm);
+
+            box-shadow: var(--shadow-lg);
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            z-index: 1000;
+
+            transform: translateY(100px);
+
+            opacity: 0;
+
+            transition: var(--transition);
+
+        }
+
+
+
+        .toast.show {
+
+            transform: translateY(0);
+
+            opacity: 1;
+
+        }
+
+
+
+        .toast.success { border-left: 4px solid var(--success); }
+
+        .toast.error { border-left: 4px solid var(--danger); }
+
+
+
+        /* Responsive Design */
+
+        @media(max-width: 992px) {
+
+            .sidebar {
+
+                transform: translateX(-100%);
+
+            }
+
+            .sidebar.open {
+
+                transform: translateX(0);
+
+            }
+
+            .main-content {
+
+                margin-left: 0;
+
+                padding: 24px;
+
+            }
+
+            body.sidebar-open-body {
+
+                overflow: hidden;
+
+            }
+
+        }
+
+
+
+        /* Login Overlay Styling */
+
+        #admin-login-overlay {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            background: radial-gradient(circle at center, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.99));
+
+            backdrop-filter: blur(12px);
+
+            z-index: 99999;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            transition: var(--transition);
+
+        }
+
+
+
+        .login-card {
+
+            background-color: var(--bg-card);
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-lg);
+
+            padding: 40px;
+
+            width: 100%;
+
+            max-width: 420px;
+
+            box-shadow: var(--shadow-lg);
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+
+        }
+
+
+
+        .login-header {
+
+            text-align: center;
+
+            margin-bottom: 32px;
+
+        }
+
+
+
+        .login-header i {
+
+            font-size: 48px;
+
+            color: var(--primary);
+
+            margin-bottom: 16px;
+
+            display: inline-block;
+
+        }
+
+
+
+        .login-header h2 {
+
+            font-size: 24px;
+
+            font-weight: 800;
+
+            color: var(--text-main);
+
+            margin-bottom: 6px;
+
+        }
+
+
+
+        .login-header p {
+
+            color: var(--text-muted);
+
+            font-size: 14px;
+
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Login Overlay -->
+    <div id="admin-login-overlay" style="display: flex;">
+        <div class="login-card">
+            <div class="login-header">
+                <i class="ph-fill ph-lock-key"></i>
+                <h2>Perfection School</h2>
+                <p>Admin Dashboard Portal</p>
+            </div>
+            <form id="admin-login-form">
+                <div class="form-group">
+                    <label>Elektron pochta (Email)</label>
+                    <input type="email" id="login-email" placeholder="email@gmail.com" required autocomplete="username">
+                </div>
+                <div class="form-group" style="margin-bottom: 24px;">
+                    <label>Maxfiy parol (Password)</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary w-100" style="padding: 12px; font-size: 15px;">
+                    <i class="ph ph-sign-in"></i> Tizimga Kirish
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loader-overlay" id="loading-overlay">
+        <div class="loader-spinner"></div>
+        <p id="loading-text">Yuklanmoqda...</p>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast-notification">
+        <i id="toast-icon" class="ph ph-info"></i>
+        <span id="toast-message">Xabar</span>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <i class="ph-fill ph-graduation-cap"></i>
+            <h2>Perfection Admin</h2>
+        </div>
+        <nav style="display: flex; flex-direction: column; flex: 1;">
+            <ul class="sidebar-menu" style="display: flex; flex-direction: column; height: 100%; gap: 6px;">
+                <li class="menu-item active" id="tab-nav-dashboard">
+                    <a onclick="switchAdminTab('dashboard')">
+                        <i class="ph ph-squares-four"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item" id="tab-nav-students">
+                    <a onclick="switchAdminTab('students')">
+                        <i class="ph ph-users"></i>
+                        <span>Students</span>
+                    </a>
+                </li>
+                <li class="menu-item" id="tab-nav-reading">
+                    <a onclick="switchAdminTab('reading')">
+                        <i class="ph ph-book-open"></i>
+                        <span>Reading Tests</span>
+                    </a>
+                </li>
+                <li class="menu-item" id="tab-nav-listening">
+                    <a onclick="switchAdminTab('listening')">
+                        <i class="ph ph-headphones"></i>
+                        <span>Listening Tests</span>
+                    </a>
+                </li>
+                <li class="menu-item" id="tab-nav-writing">
+                    <a onclick="switchAdminTab('writing')">
+                        <i class="ph ph-note-pencil"></i>
+                        <span>Writing Tasks</span>
+                    </a>
+                </li>
+                <li class="menu-item" id="tab-nav-videos">
+                    <a onclick="switchAdminTab('videos')">
+                        <i class="ph ph-video-camera"></i>
+                        <span>Video Lessons</span>
+                    </a>
+                </li>
+                <li class="menu-item" id="tab-nav-phrases">
+                    <a onclick="switchAdminTab('phrases')">
+                        <i class="ph ph-chat-circle-text"></i>
+                        <span>Phrases & Vocab</span>
+                    </a>
+                </li>
+                <li class="menu-item" id="tab-nav-grammar">
+                    <a onclick="switchAdminTab('grammar')">
+                        <i class="ph ph-books"></i>
+                        <span>Grammar Topics</span>
+                    </a>
+                </li>
+                <li class="menu-item" id="tab-nav-logout" style="margin-top: auto; border-top: 1px solid #1e293b; padding-top: 12px;">
+                    <a onclick="handleAdminSignOut()" style="color: var(--danger); cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 12px;">
+                        <i class="ph ph-sign-out" style="color: var(--danger);"></i>
+                        <span>Log Out</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer" style="margin-top: 20px;">
+            <p>&copy; 2026 Perfection School</p>
+            <p style="margin-top:4px; font-size:10px;">v2.0 Admin Suite</p>
+        </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+        <!-- Topbar Header -->
+        <header class="top-header">
+            <div>
+                <h1 id="active-panel-title">Dashboard</h1>
+                <p style="color:var(--text-muted); font-size:14px; margin-top:4px;">School statistics & content engine</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline" onclick="window.open('index.html', '_blank')">
+                    <i class="ph ph-arrow-square-out"></i> Go to App
+                </button>
+                <button class="btn btn-primary" onclick="seedDatabaseIfEmpty()">
+                    <i class="ph ph-database"></i> Seed Base
+                </button>
+            </div>
+        </header>
+
+        <!-- PANEL: DASHBOARD -->
+        <section class="admin-panel active" id="panel-dashboard">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon primary"><i class="ph ph-users"></i></div>
+                    <div class="stat-details">
+                        <h3>Total Students</h3>
+                        <p id="stat-students">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon success"><i class="ph ph-book-open"></i></div>
+                    <div class="stat-details">
+                        <h3>Reading Tests</h3>
+                        <p id="stat-reading">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon warning"><i class="ph ph-headphones"></i></div>
+                    <div class="stat-details">
+                        <h3>Listening Tests</h3>
+                        <p id="stat-listening">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon info"><i class="ph ph-chat-circle-text"></i></div>
+                    <div class="stat-details">
+                        <h3>Phrases</h3>
+                        <p id="stat-phrases">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: rgba(139, 92, 246, 0.1); color: var(--primary);"><i class="ph ph-note-pencil"></i></div>
+                    <div class="stat-details">
+                        <h3>Writing Tasks</h3>
+                        <p id="stat-writing">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.1); color: var(--danger);"><i class="ph ph-video-camera"></i></div>
+                    <div class="stat-details">
+                        <h3>Video Lessons</h3>
+                        <p id="stat-videos">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="border-left: 4px solid var(--primary);">
+                <h3 style="margin-bottom:12px;"><i class="ph ph-info"></i> Admin Panel xush kelibsiz!</h3>
+                <p style="line-height:1.6; color:var(--text-muted);">
+                    Ushbu panel yordamida mobil ilovaning barcha dinamik qismini to'liq boshqarishingiz mumkin. Chap tarafdagi menyu orqali testlarni kiritish, o'quvchilar reytingini kuzatish va yangi so'zlarni bazaga yozish imkoniga egasiz. 
+                </p>
+                <div style="margin-top:20px; display:flex; gap:12px;">
+                    <button class="btn btn-outline btn-sm" onclick="switchAdminTab('students')">Talabalarni ko'rish</button>
+                    <button class="btn btn-outline btn-sm" onclick="switchAdminTab('reading')">Yangi test yozish</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL: STUDENTS -->
+        <section class="admin-panel" id="panel-students">
+            <div class="card">
+                <div class="filter-row">
+                    <div class="search-input-wrapper">
+                        <i class="ph ph-magnifying-glass"></i>
+                        <input type="text" id="student-search" placeholder="O'quvchi ismi yoki telefon raqami bo'yicha qidirish..." oninput="filterStudents()">
+                    </div>
+                    <select id="student-level-filter" style="width:200px; padding:10px; border:1px solid var(--border); border-radius:var(--radius-sm);" onchange="filterStudents()">
+                        <option value="">Barcha darajalar</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Elementary">Elementary</option>
+                        <option value="Pre-Intermediate">Pre-Intermediate</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Upper-Intermediate">Upper-Intermediate</option>
+                        <option value="Pre-IELTS">Pre-IELTS</option>
+                        <option value="IELTS">IELTS</option>
+                    </select>
+                </div>
+
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>O'quvchi</th>
+                                <th>Telefon</th>
+                                <th>English Level</th>
+                                <th>XP ko'rsatkichi</th>
+                                <th>Ro'yxatdan o'tgan sana</th>
+                                <th>Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="students-table-body">
+                            <tr>
+                                <td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted);">
+                                    Ma'lumotlar yuklanmoqda...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL: READING TESTS -->
+        <section class="admin-panel" id="panel-reading">
+            <!-- Trigger button -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h3 style="font-size:18px;">Mavjud Reading testlar ro'yxati</h3>
+                <button class="btn btn-primary btn-sm" onclick="toggleForm('form-reading-container')">
+                    <i class="ph ph-plus"></i> Yangi Reading Test
+                </button>
+            </div>
+
+            <!-- Add reading Form -->
+            <div class="collapsible-form" id="form-reading-container">
+                <h3 style="margin-bottom:16px;" id="reading-form-title">Yangi Reading Test qo'shish</h3>
+                <form id="reading-test-form" onsubmit="saveReadingTest(event)">
+                    <input type="hidden" id="reading-edit-id">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label>English Level (Daraja)</label>
+                                <select id="reading-level" required>
+                                    <option value="A2">A2</option>
+                                    <option value="B1">B1</option>
+                                    <option value="B2">B2</option>
+                                    <option value="C1">C1</option>
+                                    <option value="IELTS 5.0">IELTS 5.0</option>
+                                    <option value="IELTS 5.5">IELTS 5.5</option>
+                                    <option value="IELTS 6.0">IELTS 6.0</option>
+                                    <option value="IELTS 6.5">IELTS 6.5</option>
+                                    <option value="IELTS 7.0">IELTS 7.0</option>
+                                    <option value="IELTS 7.5">IELTS 7.5</option>
+                                    <option value="IELTS 8.0">IELTS 8.0</option>
+                                    <option value="IELTS 8.5">IELTS 8.5</option>
+                                    <option value="IELTS 9.0">IELTS 9.0</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label>Test tartib raqami (ID)</label>
+                                <input type="number" id="reading-id" placeholder="Masalan: 1" min="1" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mavzu sarlavhasi (Title)</label>
+                        <input type="text" id="reading-title" placeholder="Masalan: The History of Space Travel" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Matn mazmuni (Passage/Content)</label>
+                        <textarea id="reading-content" rows="8" placeholder="Reading matnini shu yerga yozing..." required></textarea>
+                    </div>
+
+                    <div style="border-top:1px dashed var(--border); padding-top:20px; margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">Savollar (Questions)</h4>
+                        <div id="reading-questions-list"></div>
+                        <button type="button" class="btn btn-outline btn-sm" onclick="addQuestionField('reading')">
+                            <i class="ph ph-plus"></i> Savol qo'shish
+                        </button>
+                    </div>
+
+                    <div style="margin-top:24px; display:flex; gap:12px; justify-content:flex-end;">
+                        <button type="button" class="btn btn-outline" onclick="toggleForm('form-reading-container')">Bekor qilish</button>
+                        <button type="submit" class="btn btn-success">Saqlash</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- List container -->
+            <div class="card">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Daraja</th>
+                                <th>Test ID</th>
+                                <th>Mavzu</th>
+                                <th>Matn (qisqacha)</th>
+                                <th>Savollar soni</th>
+                                <th style="text-align:right;">Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reading-table-body">
+                            <tr>
+                                <td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted);">
+                                    Yuklanmoqda...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL: LISTENING TESTS -->
+        <section class="admin-panel" id="panel-listening">
+            <!-- Trigger button -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h3 style="font-size:18px;">Mavjud Listening testlar ro'yxati</h3>
+                <button class="btn btn-primary btn-sm" onclick="toggleForm('form-listening-container')">
+                    <i class="ph ph-plus"></i> Yangi Listening Test
+                </button>
+            </div>
+
+            <!-- Add listening Form -->
+            <div class="collapsible-form" id="form-listening-container">
+                <h3 style="margin-bottom:16px;" id="listening-form-title">Yangi Listening Test qo'shish</h3>
+                <form id="listening-test-form" onsubmit="saveListeningTest(event)">
+                    <input type="hidden" id="listening-edit-id">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label>English Level (Daraja)</label>
+                                <select id="listening-level" required>
+                                    <option value="A2">A2</option>
+                                    <option value="B1">B1</option>
+                                    <option value="B2">B2</option>
+                                    <option value="C1">C1</option>
+                                    <option value="IELTS 5.0">IELTS 5.0</option>
+                                    <option value="IELTS 5.5">IELTS 5.5</option>
+                                    <option value="IELTS 6.0">IELTS 6.0</option>
+                                    <option value="IELTS 6.5">IELTS 6.5</option>
+                                    <option value="IELTS 7.0">IELTS 7.0</option>
+                                    <option value="IELTS 7.5">IELTS 7.5</option>
+                                    <option value="IELTS 8.0">IELTS 8.0</option>
+                                    <option value="IELTS 8.5">IELTS 8.5</option>
+                                    <option value="IELTS 9.0">IELTS 9.0</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label>Test tartib raqami (ID)</label>
+                                <input type="number" id="listening-id" placeholder="Masalan: 1" min="1" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col" style="flex:2;">
+                            <div class="form-group">
+                                <label>Sarlavha (Title)</label>
+                                <input type="text" id="listening-title" placeholder="Masalan: Job Interview Tips" required>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label>YouTube Video ID</label>
+                                <input type="text" id="listening-youtube" placeholder="Masalan: j9P_xXb0l9A" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="border-top:1px dashed var(--border); padding-top:20px; margin-top:20px;">
+                        <h4 style="margin-bottom:12px;">Savollar (Questions)</h4>
+                        <div id="listening-questions-list"></div>
+                        <button type="button" class="btn btn-outline btn-sm" onclick="addQuestionField('listening')">
+                            <i class="ph ph-plus"></i> Savol qo'shish
+                        </button>
+                    </div>
+
+                    <div style="margin-top:24px; display:flex; gap:12px; justify-content:flex-end;">
+                        <button type="button" class="btn btn-outline" onclick="toggleForm('form-listening-container')">Bekor qilish</button>
+                        <button type="submit" class="btn btn-success">Saqlash</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- List container -->
+            <div class="card">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Daraja</th>
+                                <th>Test ID</th>
+                                <th>Mavzu</th>
+                                <th>YouTube ID</th>
+                                <th>Savollar soni</th>
+                                <th style="text-align:right;">Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listening-table-body">
+                            <tr>
+                                <td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted);">
+                                    Yuklanmoqda...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL: WRITING TASKS -->
+        <section class="admin-panel" id="panel-writing">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h3 style="font-size:18px;">Mavjud Writing topshiriqlar ro'yxati</h3>
+                <button class="btn btn-primary btn-sm" onclick="toggleForm('form-writing-container')">
+                    <i class="ph ph-plus"></i> Yangi Writing Task
+                </button>
+            </div>
+
+            <!-- Add writing Form -->
+            <div class="collapsible-form" id="form-writing-container">
+                <h3 style="margin-bottom:16px;" id="writing-form-title">Yangi Writing Task qo'shish</h3>
+                <form id="writing-task-form" onsubmit="saveWritingTask(event)">
+                    <input type="hidden" id="writing-edit-id">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label>Writing Level / Type (Daraja)</label>
+                                <select id="writing-task-level" required>
+                                    <option value="CEFR Part 1.1">CEFR Part 1.1 (Informal Letter)</option>
+                                    <option value="CEFR Part 1.2">CEFR Part 1.2 (Formal Letter)</option>
+                                    <option value="CEFR Part 2">CEFR Part 2 (Blogpost)</option>
+                                    <option value="IELTS Task 1">IELTS Task 1</option>
+                                    <option value="IELTS Task 2">IELTS Task 2</option>
+                                    <option value="General">General / Free Topic</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label>Task tartib raqami (ID)</label>
+                                <input type="number" id="writing-task-id" placeholder="Masalan: 1" min="1" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mavzu sarlavhasi (Title)</label>
+                        <input type="text" id="writing-task-title" placeholder="Masalan: Online Education vs Traditional Classrooms" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Topshiriq matni (Prompt/Instruction)</label>
+                        <textarea id="writing-task-prompt" rows="6" placeholder="Batafsil insho topshirig'ini yozing..." required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label>Rasm yuklash (Rasm ostidagi topshiriqlar uchun, Max: 800KB)</label>
+                                <input type="file" id="writing-task-image-input" accept="image/*" onchange="handleWritingFileConvert(this, 'image')">
+                                <input type="hidden" id="writing-task-image-base64">
+                                <div id="writing-task-image-preview" style="margin-top: 10px; display: none;">
+                                    <img src="" style="max-height: 150px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="clearWritingFile('image')" style="margin-top: 5px; display: block;">Rasmni o'chirish</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label>Fayl/Hujjat ilova qilish (PDF/Word, Max: 800KB)</label>
+                                <input type="file" id="writing-task-file-input" accept=".pdf,.doc,.docx,.txt" onchange="handleWritingFileConvert(this, 'file')">
+                                <input type="hidden" id="writing-task-file-base64">
+                                <input type="hidden" id="writing-task-file-name">
+                                <div id="writing-task-file-preview" style="margin-top: 10px; display: none; font-size: 13px;">
+                                    <span id="writing-task-file-info"><i class="ph ph-file"></i> Fayl nomi.pdf</span>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="clearWritingFile('file')" style="margin-top: 5px; display: block;">Faylni o'chirish</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:24px; display:flex; gap:12px; justify-content:flex-end;">
+                        <button type="button" class="btn btn-outline" onclick="toggleForm('form-writing-container')">Bekor qilish</button>
+                        <button type="submit" class="btn btn-success">Saqlash</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- List container -->
+            <div class="card">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Daraja / Tur</th>
+                                <th>Topshiriq ID</th>
+                                <th>Mavzu</th>
+                                <th>Prompt (qisqacha)</th>
+                                <th>Media</th>
+                                <th style="text-align:right;">Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="writing-table-body">
+                            <tr>
+                                <td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted);">
+                                    Yuklanmoqda...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL: VIDEO LESSONS -->
+        <section class="admin-panel" id="panel-videos">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h3 style="font-size:18px;">Mavjud Video darslar</h3>
+                <button class="btn btn-primary btn-sm" onclick="toggleForm('form-videos-container')">
+                    <i class="ph ph-plus"></i> Yangi Video Dars
+                </button>
+            </div>
+
+            <div class="collapsible-form" id="form-videos-container">
+                <h3 style="margin-bottom:16px;" id="videos-form-title">Yangi Video Dars qo'shish</h3>
+                <form id="video-lesson-form" onsubmit="saveVideoLesson(event)">
+                    <input type="hidden" id="video-edit-id">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label>Bo'lim (Level/Category)</label>
+                                <select id="video-level" required>
+                                    <option value="Grammar">Grammar</option>
+                                    <option value="Vocabulary">Vocabulary</option>
+                                    <option value="IELTS Prep">IELTS Prep</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label>Tartib raqami (Order)</label>
+                                <input type="number" id="video-order" value="1" min="1" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Sarlavha (Title)</label>
+                        <input type="text" id="video-title" placeholder="Video mavzusi..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>YouTube Link</label>
+                        <input type="url" id="video-url" placeholder="https://youtube.com/watch?v=..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tavsif (Description)</label>
+                        <textarea id="video-description" rows="3" placeholder="Video haqida qisqacha..."></textarea>
+                    </div>
+                    <div style="margin-top:24px; display:flex; gap:12px; justify-content:flex-end;">
+                        <button type="button" class="btn btn-outline" onclick="toggleForm('form-videos-container')">Bekor qilish</button>
+                        <button type="submit" class="btn btn-success">Saqlash</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Bo'lim</th>
+                                <th>Tartib</th>
+                                <th>Mavzu</th>
+                                <th>Video URL</th>
+                                <th style="text-align:right;">Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="videos-table-body">
+                            <tr>
+                                <td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">
+                                    Yuklanmoqda...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL: PHRASES -->
+        <section class="admin-panel" id="panel-phrases">
+            <div class="form-row" style="align-items: flex-start;">
+                <!-- Add Phrase Box -->
+                <div class="card" style="flex:1;">
+                    <h3 style="margin-bottom:16px;">Yangi Ibora Qo'shish</h3>
+                    <form id="phrase-form" onsubmit="savePhrase(event)">
+                        <input type="hidden" id="phrase-edit-id">
+                        <div class="form-group">
+                            <label>Inglizcha ibora (English phrase)</label>
+                            <input type="text" id="phrase-en" placeholder="Masalan: Break a leg" required>
+                        </div>
+                        <div class="form-group">
+                            <label>O'zbekcha tarjimasi (Uzbek translation)</label>
+                            <input type="text" id="phrase-uz" placeholder="Masalan: Omad tilayman" required>
+                        </div>
+                        <div style="display:flex; gap:10px; margin-top:20px;">
+                            <button type="submit" class="btn btn-primary" style="flex:1;">Saqlash</button>
+                            <button type="button" id="btn-cancel-phrase-edit" class="btn btn-outline" style="display:none;" onclick="cancelPhraseEdit()">Bekor qilish</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Phrases List -->
+                <div class="card" style="flex:2;">
+                    <h3 style="margin-bottom:16px;">Iboralar Ro'yxati</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>English</th>
+                                    <th>O'zbekcha</th>
+                                    <th style="text-align:right;">Amallar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="phrases-table-body">
+                                <tr>
+                                    <td colspan="3" style="text-align:center; padding:20px; color:var(--text-muted);">
+                                        Yuklanmoqda...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL: GRAMMAR -->
+        <section class="admin-panel" id="panel-grammar">
+            <div class="form-row" style="align-items: flex-start;">
+                <!-- Add Grammar Box -->
+                <div class="card" style="flex:1;">
+                    <h3 style="margin-bottom:16px;">Yangi Grammatika Mavzusi</h3>
+                    <form id="grammar-form" onsubmit="saveGrammar(event)">
+                        <input type="hidden" id="grammar-edit-id">
+                        <div class="form-group">
+                            <label>Grammatika qoidasi (Topic Title)</label>
+                            <input type="text" id="grammar-topic" placeholder="Masalan: Relative Clauses" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tushuntirish / Qoida (Description)</label>
+                            <textarea id="grammar-desc" rows="5" placeholder="Qoidani o'zbekcha tushuntirib yozing..." required></textarea>
+                        </div>
+                        <div style="display:flex; gap:10px; margin-top:20px;">
+                            <button type="submit" class="btn btn-primary" style="flex:1;">Saqlash</button>
+                            <button type="button" id="btn-cancel-grammar-edit" class="btn btn-outline" style="display:none;" onclick="cancelGrammarEdit()">Bekor qilish</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Grammar List -->
+                <div class="card" style="flex:2;">
+                    <h3 style="margin-bottom:16px;">Qoidalar Ro'yxati</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mavzu</th>
+                                    <th>Qoida</th>
+                                    <th style="text-align:right;">Amallar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="grammar-table-body">
+                                <tr>
+                                    <td colspan="3" style="text-align:center; padding:20px; color:var(--text-muted);">
+                                        Yuklanmoqda...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCl8oeI8yYddF-YuSuhCGN6fqZiEechjn8",
+            authDomain: "perfection-school.firebaseapp.com",
+            projectId: "perfection-school",
+            storageBucket: "perfection-school.firebasestorage.app",
+            messagingSenderId: "793168534663",
+            appId: "1:793168534663:web:ad375713f143481b4a2c22",
+            measurementId: "G-87NPRELTDH"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const ALLOWED_ADMINS = ["xojaahror06@gmail.com", "azamatbekniyozov@gmail.com"];
+
+        // Global arrays to store data locally
+        let studentsList = [];
+        let readingTests = [];
+        let listeningTests = [];
+        let phrasesList = [];
+        let grammarList = [];
+        let writingTasks = [];
+        let videoLessonsList = [];
+
+        // Auth State Listener
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const email = user.email ? user.email.toLowerCase() : "";
+                if (ALLOWED_ADMINS.includes(email)) {
+                    document.getElementById('admin-login-overlay').style.display = 'none';
+                    loadAllData();
+                } else {
+                    alert("Ruxsat berilmagan! Siz admin emassiz.");
+                    signOut(auth);
+                }
+            } else {
+                document.getElementById('admin-login-overlay').style.display = 'flex';
+            }
+        });
+
+        // Handle Sign Out
+        window.handleAdminSignOut = async function() {
+            if (!confirm("Tizimdan chiqishni xohlaysizmi?")) return;
+            try {
+                await signOut(auth);
+                showToast("Tizimdan chiqildi", "success");
+            } catch (e) {
+                showToast("Tizimdan chiqishda xatolik: " + e.message, "error");
+            }
+        };
+
+        // Login Submit Handler
+        const loginForm = document.getElementById('admin-login-form');
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value.trim();
+                const password = document.getElementById('login-password').value;
+                
+                showLoader("Tizimga kirilmoqda...");
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    hideLoader();
+                    showToast("Muvaffaqiyatli kirdingiz!", "success");
+                } catch (err) {
+                    hideLoader();
+                    console.error(err);
+                    showToast("Email yoki parol noto'g'ri!", "error");
+                }
+            });
+        }
+
+        // Global seeder function
+        window.seedDatabaseIfEmpty = async function() {
+            if(!confirm("Barcha boshlang'ich ma'lumotlarni bazaga yuklashni tasdiqlaysizmi? (Bunda faqat bo'sh bo'lgan bo'limlar to'ldiriladi)")) return;
+            
+            showLoader("Baza tekshirilmoqda va to'ldirilmoqda...");
+            try {
+                // Fetch local JSON base with static fallback
+                let testData = window.initialTestData;
+                try {
+                    const res = await fetch('tests.json');
+                    testData = await res.json();
+                } catch (fetchErr) {
+                    console.log("Using static window.initialTestData for seeding", fetchErr);
+                }
+
+                // 1. Seed Reading Tests
+                const currentReading = await getDocs(collection(db, "reading_tests"));
+                let rCount = 0;
+                if (currentReading.empty) {
+                    showLoader("Reading testlar bazaga yozilmoqda...");
+                    for (const level in testData.reading) {
+                        for (const test of testData.reading[level]) {
+                            await addDoc(collection(db, "reading_tests"), {
+                                level: level,
+                                id: test.id,
+                                title: test.title,
+                                content: test.content,
+                                questions: test.questions
+                            });
+                            rCount++;
+                        }
+                    }
+                }
+
+                // 2. Seed Listening Tests
+                const currentListening = await getDocs(collection(db, "listening_tests"));
+                let lCount = 0;
+                if (currentListening.empty) {
+                    showLoader("Listening testlar bazaga yozilmoqda...");
+                    for (const level in testData.listening) {
+                        for (const test of testData.listening[level]) {
+                            await addDoc(collection(db, "listening_tests"), {
+                                level: level,
+                                id: test.id,
+                                title: test.title,
+                                youtube_id: test.youtube_id,
+                                questions: test.questions
+                            });
+                            lCount++;
+                        }
+                    }
+                }
+
+                // 3. Seed Phrases
+                const currentPhrases = await getDocs(collection(db, "phrases"));
+                let pCount = 0;
+                if (currentPhrases.empty) {
+                    showLoader("Iboralar bazaga yozilmoqda...");
+                    const initialPhrases = [
+                        { en: "Hello / Hi", uz: "Salom" },
+                        { en: "Good morning", uz: "Xayrli tong" },
+                        { en: "Good evening", uz: "Xayrli kech" },
+                        { en: "How are you?", uz: "Qandaysiz?" },
+                        { en: "I'm fine, thank you", uz: "Men yaxshiman, rahmat" },
+                        { en: "What is your name?", uz: "Ismingiz nima?" },
+                        { en: "My name is...", uz: "Mening ismim..." },
+                        { en: "Nice to meet you", uz: "Tanishganimdan xursandman" },
+                        { en: "Please", uz: "Iltimos" },
+                        { en: "Thank you very much", uz: "Katta rahmat" },
+                        { en: "You're welcome", uz: "Arzimaydi" },
+                        { en: "Excuse me", uz: "Kechirasiz (e'tibor qaratish uchun)" },
+                        { en: "I'm sorry", uz: "Kechirasiz (uzr so'rash)" },
+                        { en: "I don't understand", uz: "Men tushunmadim" },
+                        { en: "Could you repeat that?", uz: "Qaytarib yubora olasizmi?" },
+                        { en: "Do you speak English?", uz: "Inglizcha gapirasizmi?" },
+                        { en: "How much is this?", uz: "Bu qancha turadi?" },
+                        { en: "Where is the bathroom?", uz: "Hojatxona qayerda?" },
+                        { en: "Help!", uz: "Yordam bering!" },
+                        { en: "Goodbye", uz: "Xayr" }
+                    ];
+                    for (let p of initialPhrases) {
+                        await addDoc(collection(db, "phrases"), p);
+                        pCount++;
+                    }
+                }
+
+                // 4. Seed Grammar
+                const currentGrammar = await getDocs(collection(db, "grammar"));
+                let gCount = 0;
+                if (currentGrammar.empty) {
+                    showLoader("Grammatika bazaga yozilmoqda...");
+                    const initialGrammar = [
+                        { topic: "Noun (Ot)", desc: "Shaxs, narsa, joy yoki g'oyani bildiradi. Masalan: dog, city, beauty." },
+                        { topic: "Pronoun (Olmosh)", desc: "Otning o'rnida ishlatiladi. Masalan: he, she, it, they." },
+                        { topic: "Verb (Fe'l)", desc: "Harakat yoki holatni bildiradi. Masalan: run, is, jump." },
+                        { topic: "Adjective (Sifat)", desc: "Otni tasvirlaydi. Masalan: big, red, beautiful." },
+                        { topic: "Present Simple", desc: "Doimiy va odatiy harakatlar uchun. (I work every day)" },
+                        { topic: "Present Continuous", desc: "Ayni paytda sodir bo'layotgan harakatlar. (I am working now)" },
+                        { topic: "Past Simple", desc: "O'tgan zamondagi tugallangan harakatlar. (I worked yesterday)" },
+                        { topic: "Future Simple", desc: "Kelajakdagi maqsad va harakatlar. (I will work tomorrow)" },
+                        { topic: "Articles (a/an/the)", desc: "Otlar oldida qo'llaniluvchi artikllar. Birlik otlar uchun 'a/an', aniq narsalar uchun 'the'." },
+                        { topic: "Prepositions (Predloglar)", desc: "O'rin-joy yoki vaqtni ko'rsatadi. Masalan: in, on, at, under." }
+                    ];
+                    for (let g of initialGrammar) {
+                        await addDoc(collection(db, "grammar"), g);
+                        gCount++;
+                    }
+                }
+
+                // 5. Seed Writing Tasks
+                const currentWriting = await getDocs(collection(db, "writing_tasks"));
+                let wCount = 0;
+                if (currentWriting.empty) {
+                    showLoader("Writing topshiriqlar bazaga yozilmoqda...");
+                    const initialWriting = [
+                        {
+                            level: "IELTS Task 2",
+                            id: 1,
+                            title: "Online Education vs Traditional Classrooms",
+                            prompt: "Some people believe that online education is more effective than traditional classroom learning, while others disagree. Discuss both views and give your opinion.",
+                            image: null,
+                            attachment: null,
+                            attachment_name: null
+                        },
+                        {
+                            level: "IELTS Task 1",
+                            id: 1,
+                            title: "Bar Chart of Global Energy Consumption",
+                            prompt: "The chart below shows the consumption of energy from different sources in several countries in 2025. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+                            image: null,
+                            attachment: null,
+                            attachment_name: null
+                        },
+                        {
+                            level: "CEFR Part 1.1",
+                            id: 1,
+                            title: "Letter to a Friend",
+                            prompt: "Write a letter to your friend telling them about a book you read recently. Explain why you enjoyed it and why they should read it too.",
+                            image: null,
+                            attachment: null,
+                            attachment_name: null
+                        }
+                    ];
+                    for (let w of initialWriting) {
+                        await addDoc(collection(db, "writing_tasks"), w);
+                        wCount++;
+                    }
+                }
+
+                // 6. Seed Video Lessons
+                const currentVideos = await getDocs(collection(db, "video_lessons"));
+                let vCount = 0;
+                if (currentVideos.empty) {
+                    showLoader("Video darslar bazaga yozilmoqda...");
+                    const initialVideos = [
+                        {
+                            level: "Grammar",
+                            order: 1,
+                            title: "Present Simple vs Present Continuous",
+                            videoUrl: "https://www.youtube.com/watch?v=Hn36eYjQNnY",
+                            description: "Ushbu darsda Present Simple va Present Continuous zamonlari o'rtasidagi asosiy farqlarni ko'rib chiqamiz."
+                        },
+                        {
+                            level: "Vocabulary",
+                            order: 1,
+                            title: "Essential IELTS Vocabulary - Topic: Education",
+                            videoUrl: "https://www.youtube.com/watch?v=S386O9j6Zbg",
+                            description: "Ta'lim mavzusiga oid IELTS imtihonida yuqori ball olish uchun kerakli so'zlar va iboralar."
+                        },
+                        {
+                            level: "IELTS Prep",
+                            order: 1,
+                            title: "IELTS Speaking Part 1 Tips and Tricks",
+                            videoUrl: "https://www.youtube.com/watch?v=Gj9qU2s9p_k",
+                            description: "Speaking bo'limining birinchi qismida qanday javob berish kerakligi haqida maslahatlar."
+                        }
+                    ];
+                    for (let v of initialVideos) {
+                        await addDoc(collection(db, "video_lessons"), v);
+                        vCount++;
+                    }
+                }
+
+                hideLoader();
+                showToast(`Seeding yakunlandi! Yuklandi: ${rCount} ta reading, ${lCount} ta listening, ${pCount} ta ibora, ${gCount} ta qoida, ${wCount} ta writing, ${vCount} ta video.`, 'success');
+                loadAllData();
+
+            } catch (e) {
+                hideLoader();
+                showToast("Seedingda xatolik yuz berdi: " + e.message, 'error');
+                console.error(e);
+            }
+        };
+
+        // Switch panel tabs
+        window.switchAdminTab = function(tabId) {
+            document.querySelectorAll('.admin-panel').forEach(panel => panel.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+            
+            const selectedPanel = document.getElementById('panel-' + tabId);
+            const selectedNav = document.getElementById('tab-nav-' + tabId);
+            
+            if (selectedPanel) selectedPanel.classList.add('active');
+            if (selectedNav) selectedNav.classList.add('active');
+
+            // Set Title
+            const titles = {
+                'dashboard': 'Dashboard',
+                'students': 'Students Directory',
+                'reading': 'Reading Tests',
+                'listening': 'Listening Tests',
+                'phrases': 'Phrases & Vocab',
+                'grammar': 'Grammar Topics',
+                'writing': 'Writing Tasks',
+                'videos': 'Video Lessons'
+            };
+            document.getElementById('active-panel-title').innerText = titles[tabId] || 'Admin Panel';
+        };
+
+        // Utility: Loader
+        function showLoader(message = "Yuklanmoqda...") {
+            document.getElementById('loading-text').innerText = message;
+            document.getElementById('loading-overlay').style.display = 'flex';
+        }
+        function hideLoader() {
+            document.getElementById('loading-overlay').style.display = 'none';
+        }
+
+        // Utility: Toast
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast-notification');
+            const icon = document.getElementById('toast-icon');
+            const msgSpan = document.getElementById('toast-message');
+
+            toast.className = `toast show ${type}`;
+            msgSpan.innerText = message;
+
+            if (type === 'success') {
+                icon.className = 'ph-fill ph-check-circle';
+                icon.style.color = 'var(--success)';
+            } else if (type === 'error') {
+                icon.className = 'ph-fill ph-x-circle';
+                icon.style.color = 'var(--danger)';
+            } else {
+                icon.className = 'ph-fill ph-info';
+                icon.style.color = 'var(--info)';
+            }
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Toggle Expandable Forms
+        window.toggleForm = function(formId) {
+            const form = document.getElementById(formId);
+            form.classList.toggle('open');
+        };
+
+        // --- STUDENTS DIRECTORY ---
+        async function fetchStudents() {
+            try {
+                const snap = await getDocs(collection(db, "users"));
+                studentsList = [];
+                snap.forEach(doc => {
+                    studentsList.push({ dbId: doc.id, ...doc.data() });
+                });
+                renderStudents(studentsList);
+                document.getElementById('stat-students').innerText = studentsList.length;
+            } catch (e) {
+                console.error(e);
+                showToast("O'quvchilarni yuklashda xatolik yuz berdi", 'error');
+            }
+        }
+
+        function renderStudents(list) {
+            const tbody = document.getElementById('students-table-body');
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Hozircha hech qanday talaba yo'q.</td></tr>`;
+                return;
+            }
+            let html = '';
+            list.forEach(student => {
+                const date = student.registered_at ? new Date(student.registered_at).toLocaleDateString() : 'Noma\'lum';
+                html += `
+                    <tr>
+                        <td><strong>${student.name || 'Noma\'lum'}</strong></td>
+                        <td>${student.phone || 'Kiritilmagan'}</td>
+                        <td><span class="badge badge-primary">${student.level || 'Beginner'}</span></td>
+                        <td><span class="badge badge-success">${student.xp || 0} XP</span></td>
+                        <td>${date}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="deleteStudent('${student.dbId}')">
+                                <i class="ph ph-trash"></i> O'chirish
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        window.deleteStudent = async function(id) {
+            if(!confirm("Haqiqatdan ham ushbu talabani o'chirmoqchimisiz?")) return;
+            showLoader("Talaba o'chirilmoqda...");
+            try {
+                await deleteDoc(doc(db, "users", id));
+                hideLoader();
+                showToast("Talaba muvaffaqiyatli o'chirildi!", 'success');
+                fetchStudents();
+            } catch (e) {
+                hideLoader();
+                showToast("O'chirishda xato yuz berdi", 'error');
+            }
+        };
+
+        window.filterStudents = function() {
+            const query = document.getElementById('student-search').value.toLowerCase();
+            const level = document.getElementById('student-level-filter').value;
+            
+            const filtered = studentsList.filter(s => {
+                const matchesSearch = (s.name && s.name.toLowerCase().includes(query)) || (s.phone && s.phone.includes(query));
+                const matchesLevel = !level || s.level === level;
+                return matchesSearch && matchesLevel;
+            });
+            renderStudents(filtered);
+        };
+
+
+        // --- READING CRUD ---
+        let readingQuestionsCount = 0;
+
+        window.addQuestionField = function(type, initialData = null) {
+            const listContainer = document.getElementById(`${type}-questions-list`);
+            const index = listContainer.children.length;
+            const qCard = document.createElement('div');
+            qCard.className = 'question-card';
+            qCard.id = `${type}-question-${index}`;
+
+            const qText = initialData ? initialData.q : '';
+            const opts = initialData ? initialData.options : ['', '', '', ''];
+            const ans = initialData ? initialData.answer : 'A';
+
+            qCard.innerHTML = `
+                <div class="question-card-title">
+                    <span>SAVOL #${index + 1}</span>
+                    <i class="ph ph-trash remove-question-btn" onclick="removeQuestionField('${type}', ${index})"></i>
+                </div>
+                <div class="form-group">
+                    <label>Savol matni (Question text)</label>
+                    <input type="text" class="question-q" value="${qText.replace(/"/g, '&quot;')}" required placeholder="Masalan: What is the main idea of paragraph 2?">
+                </div>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Option A</label>
+                            <input type="text" class="question-opt" value="${opts[0].replace(/"/g, '&quot;')}" required placeholder="A javob">
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Option B</label>
+                            <input type="text" class="question-opt" value="${opts[1].replace(/"/g, '&quot;')}" required placeholder="B javob">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Option C</label>
+                            <input type="text" class="question-opt" value="${opts[2] ? opts[2].replace(/"/g, '&quot;') : ''}" placeholder="C javob (Ixtiyoriy)">
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Option D</label>
+                            <input type="text" class="question-opt" value="${opts[3] ? opts[3].replace(/"/g, '&quot;') : ''}" placeholder="D javob (Ixtiyoriy)">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label>To'g'ri javob kaliti (Correct Answer)</label>
+                    <select class="question-ans" required>
+                        <option value="A" ${ans === 'A' ? 'selected' : ''}>A</option>
+                        <option value="B" ${ans === 'B' ? 'selected' : ''}>B</option>
+                        <option value="C" ${ans === 'C' ? 'selected' : ''}>C</option>
+                        <option value="D" ${ans === 'D' ? 'selected' : ''}>D</option>
+                    </select>
+                </div>
+            `;
+            listContainer.appendChild(qCard);
+        };
+
+        window.removeQuestionField = function(type, index) {
+            const el = document.getElementById(`${type}-question-${index}`);
+            if (el) el.remove();
+            
+            // Re-index remaining questions labels
+            const list = document.getElementById(`${type}-questions-list`);
+            Array.from(list.children).forEach((child, idx) => {
+                child.id = `${type}-question-${idx}`;
+                child.querySelector('.question-card-title span').innerText = `SAVOL #${idx + 1}`;
+                const removeBtn = child.querySelector('.remove-question-btn');
+                removeBtn.setAttribute('onclick', `removeQuestionField('${type}', ${idx})`);
+            });
+        };
+
+        async function fetchReadingTests() {
+            try {
+                const snap = await getDocs(collection(db, "reading_tests"));
+                readingTests = [];
+                snap.forEach(doc => {
+                    readingTests.push({ dbId: doc.id, ...doc.data() });
+                });
+                renderReadingTests();
+                document.getElementById('stat-reading').innerText = readingTests.length;
+            } catch (e) {
+                console.error(e);
+                showToast("Reading testlarni yuklashda xatolik yuz berdi", 'error');
+            }
+        }
+
+        function renderReadingTests() {
+            const tbody = document.getElementById('reading-table-body');
+            if (readingTests.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Darslar bo'sh. Seed tugmasini bosing.</td></tr>`;
+                return;
+            }
+            let html = '';
+            // Sort by level and test ID
+            readingTests.sort((a,b) => {
+                if(a.level !== b.level) return a.level.localeCompare(b.level);
+                return a.id - b.id;
+            });
+            
+            readingTests.forEach(test => {
+                const contentSnippet = test.content ? test.content.substring(0, 45) + '...' : 'Matn yo\'q';
+                const qLen = test.questions ? test.questions.length : 0;
+                html += `
+                    <tr>
+                        <td><span class="badge badge-primary">${test.level}</span></td>
+                        <td><strong>Test #${test.id}</strong></td>
+                        <td>${test.title}</td>
+                        <td style="color:var(--text-muted); font-size:13px;">${contentSnippet}</td>
+                        <td><span class="badge badge-success">${qLen} ta savol</span></td>
+                        <td style="text-align:right;">
+                            <div style="display:inline-flex; gap:8px;">
+                                <button class="btn btn-outline btn-sm" onclick="editReadingTest('${test.dbId}')">
+                                    <i class="ph ph-pencil"></i> Tahrirlash
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteReadingTest('${test.dbId}')">
+                                    <i class="ph ph-trash"></i> O'chirish
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        window.editReadingTest = function(dbId) {
+            const test = readingTests.find(t => t.dbId === dbId);
+            if (!test) return;
+
+            document.getElementById('reading-edit-id').value = dbId;
+            document.getElementById('reading-level').value = test.level;
+            document.getElementById('reading-id').value = test.id;
+            document.getElementById('reading-title').value = test.title;
+            document.getElementById('reading-content').value = test.content;
+
+            // Clear questions list
+            const qList = document.getElementById('reading-questions-list');
+            qList.innerHTML = '';
+            
+            if (test.questions && test.questions.length > 0) {
+                test.questions.forEach(q => {
+                    addQuestionField('reading', q);
+                });
+            }
+
+            document.getElementById('reading-form-title').innerText = "Reading Testni Tahrirlash";
+            const formContainer = document.getElementById('form-reading-container');
+            formContainer.classList.add('open');
+            formContainer.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.saveReadingTest = async function(e) {
+            e.preventDefault();
+            const dbId = document.getElementById('reading-edit-id').value;
+            const level = document.getElementById('reading-level').value;
+            const testId = parseInt(document.getElementById('reading-id').value);
+            const title = document.getElementById('reading-title').value;
+            const content = document.getElementById('reading-content').value;
+
+            // Extract questions
+            const questions = [];
+            const qCards = document.querySelectorAll('#reading-questions-list .question-card');
+            qCards.forEach(card => {
+                const qText = card.querySelector('.question-q').value;
+                const optInputs = card.querySelectorAll('.question-opt');
+                const options = Array.from(optInputs).map(i => i.value).filter(val => val.trim() !== '');
+                const answer = card.querySelector('.question-ans').value;
+                
+                questions.push({ q: qText, options, answer });
+            });
+
+            if (questions.length === 0) {
+                alert("Iltimos, kamida 1 ta savol qo'shing!");
+                return;
+            }
+
+            showLoader("Reading test saqlanmoqda...");
+            try {
+                const data = {
+                    level,
+                    id: testId,
+                    title,
+                    content,
+                    questions
+                };
+
+                if (dbId) {
+                    // Update
+                    await updateDoc(doc(db, "reading_tests", dbId), data);
+                    showToast("Reading test muvaffaqiyatli yangilandi!", 'success');
+                } else {
+                    // Create
+                    await addDoc(collection(db, "reading_tests"), data);
+                    showToast("Yangi Reading test qo'shildi!", 'success');
+                }
+                
+                // Clear and Close form
+                document.getElementById('reading-test-form').reset();
+                document.getElementById('reading-edit-id').value = '';
+                document.getElementById('reading-questions-list').innerHTML = '';
+                document.getElementById('reading-form-title').innerText = "Yangi Reading Test qo'shish";
+                document.getElementById('form-reading-container').classList.remove('open');
+                
+                hideLoader();
+                fetchReadingTests();
+            } catch (e) {
+                hideLoader();
+                showToast("Saqlashda xatolik yuz berdi: " + e.message, 'error');
+            }
+        };
+
+        window.deleteReadingTest = async function(dbId) {
+            if(!confirm("Ushbu testni butunlay o'chirmoqchimisiz?")) return;
+            showLoader("Test o'chirilmoqda...");
+            try {
+                await deleteDoc(doc(db, "reading_tests", dbId));
+                hideLoader();
+                showToast("Test o'chirildi!", 'success');
+                fetchReadingTests();
+            } catch (e) {
+                hideLoader();
+                showToast("O'chirishda xatolik: " + e.message, 'error');
+            }
+        };
+
+
+        // --- LISTENING CRUD ---
+        async function fetchListeningTests() {
+            try {
+                const snap = await getDocs(collection(db, "listening_tests"));
+                listeningTests = [];
+                snap.forEach(doc => {
+                    listeningTests.push({ dbId: doc.id, ...doc.data() });
+                });
+                renderListeningTests();
+                document.getElementById('stat-listening').innerText = listeningTests.length;
+            } catch (e) {
+                console.error(e);
+                showToast("Listening testlarni yuklashda xatolik yuz berdi", 'error');
+            }
+        }
+
+        function renderListeningTests() {
+            const tbody = document.getElementById('listening-table-body');
+            if (listeningTests.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Baza bo'sh. Seed tugmasini bosing.</td></tr>`;
+                return;
+            }
+            let html = '';
+            listeningTests.sort((a,b) => {
+                if(a.level !== b.level) return a.level.localeCompare(b.level);
+                return a.id - b.id;
+            });
+            
+            listeningTests.forEach(test => {
+                const qLen = test.questions ? test.questions.length : 0;
+                html += `
+                    <tr>
+                        <td><span class="badge badge-primary">${test.level}</span></td>
+                        <td><strong>Test #${test.id}</strong></td>
+                        <td>${test.title}</td>
+                        <td><code>${test.youtube_id}</code></td>
+                        <td><span class="badge badge-success">${qLen} ta savol</span></td>
+                        <td style="text-align:right;">
+                            <div style="display:inline-flex; gap:8px;">
+                                <button class="btn btn-outline btn-sm" onclick="editListeningTest('${test.dbId}')">
+                                    <i class="ph ph-pencil"></i> Tahrirlash
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteListeningTest('${test.dbId}')">
+                                    <i class="ph ph-trash"></i> O'chirish
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        window.editListeningTest = function(dbId) {
+            const test = listeningTests.find(t => t.dbId === dbId);
+            if (!test) return;
+
+            document.getElementById('listening-edit-id').value = dbId;
+            document.getElementById('listening-level').value = test.level;
+            document.getElementById('listening-id').value = test.id;
+            document.getElementById('listening-title').value = test.title;
+            document.getElementById('listening-youtube').value = test.youtube_id;
+
+            const qList = document.getElementById('listening-questions-list');
+            qList.innerHTML = '';
+            
+            if (test.questions && test.questions.length > 0) {
+                test.questions.forEach(q => {
+                    addQuestionField('listening', q);
+                });
+            }
+
+            document.getElementById('listening-form-title').innerText = "Listening Testni Tahrirlash";
+            const formContainer = document.getElementById('form-listening-container');
+            formContainer.classList.add('open');
+            formContainer.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.saveListeningTest = async function(e) {
+            e.preventDefault();
+            const dbId = document.getElementById('listening-edit-id').value;
+            const level = document.getElementById('listening-level').value;
+            const testId = parseInt(document.getElementById('listening-id').value);
+            const title = document.getElementById('listening-title').value;
+            const youtubeId = document.getElementById('listening-youtube').value;
+
+            // Extract questions
+            const questions = [];
+            const qCards = document.querySelectorAll('#listening-questions-list .question-card');
+            qCards.forEach(card => {
+                const qText = card.querySelector('.question-q').value;
+                const optInputs = card.querySelectorAll('.question-opt');
+                const options = Array.from(optInputs).map(i => i.value).filter(val => val.trim() !== '');
+                const answer = card.querySelector('.question-ans').value;
+                
+                questions.push({ q: qText, options, answer });
+            });
+
+            if (questions.length === 0) {
+                alert("Iltimos, kamida 1 ta savol qo'shing!");
+                return;
+            }
+
+            showLoader("Listening test saqlanmoqda...");
+            try {
+                const data = {
+                    level,
+                    id: testId,
+                    title,
+                    youtube_id: youtubeId,
+                    questions
+                };
+
+                if (dbId) {
+                    await updateDoc(doc(db, "listening_tests", dbId), data);
+                    showToast("Listening test muvaffaqiyatli yangilandi!", 'success');
+                } else {
+                    await addDoc(collection(db, "listening_tests"), data);
+                    showToast("Yangi Listening test qo'shildi!", 'success');
+                }
+                
+                document.getElementById('listening-test-form').reset();
+                document.getElementById('listening-edit-id').value = '';
+                document.getElementById('listening-questions-list').innerHTML = '';
+                document.getElementById('listening-form-title').innerText = "Yangi Listening Test qo'shish";
+                document.getElementById('form-listening-container').classList.remove('open');
+                
+                hideLoader();
+                fetchListeningTests();
+            } catch (e) {
+                hideLoader();
+                showToast("Saqlashda xatolik: " + e.message, 'error');
+            }
+        };
+
+        window.deleteListeningTest = async function(dbId) {
+            if(!confirm("Ushbu listening testni butunlay o'chirmoqchimisiz?")) return;
+            showLoader("Test o'chirilmoqda...");
+            try {
+                await deleteDoc(doc(db, "listening_tests", dbId));
+                hideLoader();
+                showToast("Listening test o'chirildi!", 'success');
+                fetchListeningTests();
+            } catch (e) {
+                hideLoader();
+                showToast("O'chirishda xato: " + e.message, 'error');
+            }
+        };
+
+
+        // --- PHRASES CRUD ---
+        async function fetchPhrases() {
+            try {
+                const snap = await getDocs(collection(db, "phrases"));
+                phrasesList = [];
+                snap.forEach(doc => {
+                    phrasesList.push({ dbId: doc.id, ...doc.data() });
+                });
+                renderPhrases();
+                document.getElementById('stat-phrases').innerText = phrasesList.length;
+            } catch (e) {
+                console.error(e);
+                showToast("Iboralarni yuklashda xatolik yuz berdi", 'error');
+            }
+        }
+
+        function renderPhrases() {
+            const tbody = document.getElementById('phrases-table-body');
+            if (phrasesList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Ro'yxat bo'sh.</td></tr>`;
+                return;
+            }
+            let html = '';
+            // Sort A-Z
+            phrasesList.sort((a,b) => (a.en || '').localeCompare(b.en || ''));
+            
+            phrasesList.forEach(item => {
+                html += `
+                    <tr>
+                        <td><strong>${item.en}</strong></td>
+                        <td>${item.uz}</td>
+                        <td style="text-align:right;">
+                            <div style="display:inline-flex; gap:8px;">
+                                <button class="btn btn-outline btn-sm" onclick="editPhrase('${item.dbId}')">
+                                    <i class="ph ph-pencil"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deletePhrase('${item.dbId}')">
+                                    <i class="ph ph-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        window.editPhrase = function(dbId) {
+            const item = phrasesList.find(p => p.dbId === dbId);
+            if (!item) return;
+
+            document.getElementById('phrase-edit-id').value = dbId;
+            document.getElementById('phrase-en').value = item.en;
+            document.getElementById('phrase-uz').value = item.uz;
+            document.getElementById('btn-cancel-phrase-edit').style.display = 'inline-flex';
+        };
+
+        window.cancelPhraseEdit = function() {
+            document.getElementById('phrase-form').reset();
+            document.getElementById('phrase-edit-id').value = '';
+            document.getElementById('btn-cancel-phrase-edit').style.display = 'none';
+        };
+
+        window.savePhrase = async function(e) {
+            e.preventDefault();
+            const dbId = document.getElementById('phrase-edit-id').value;
+            const en = document.getElementById('phrase-en').value;
+            const uz = document.getElementById('phrase-uz').value;
+
+            showLoader("Ibora saqlanmoqda...");
+            try {
+                if (dbId) {
+                    await updateDoc(doc(db, "phrases", dbId), { en, uz });
+                    showToast("Ibora yangilandi!", 'success');
+                } else {
+                    await addDoc(collection(db, "phrases"), { en, uz });
+                    showToast("Yangi ibora qo'shildi!", 'success');
+                }
+                cancelPhraseEdit();
+                hideLoader();
+                fetchPhrases();
+            } catch (e) {
+                hideLoader();
+                showToast("Saqlashda xatolik yuz berdi", 'error');
+            }
+        };
+
+        window.deletePhrase = async function(dbId) {
+            if(!confirm("Ushbu iborani o'chirib tashlaysizmi?")) return;
+            showLoader("Ibora o'chirilmoqda...");
+            try {
+                await deleteDoc(doc(db, "phrases", dbId));
+                hideLoader();
+                showToast("Ibora o'chirildi", 'success');
+                fetchPhrases();
+            } catch (e) {
+                hideLoader();
+                showToast("O'chirishda xatolik yuz berdi", 'error');
+            }
+        };
+
+
+        // --- GRAMMAR CRUD ---
+        async function fetchGrammar() {
+            try {
+                const snap = await getDocs(collection(db, "grammar"));
+                grammarList = [];
+                snap.forEach(doc => {
+                    grammarList.push({ dbId: doc.id, ...doc.data() });
+                });
+                renderGrammar();
+            } catch (e) {
+                console.error(e);
+                showToast("Grammatika ro'yxatini yuklashda xatolik yuz berdi", 'error');
+            }
+        }
+
+        function renderGrammar() {
+            const tbody = document.getElementById('grammar-table-body');
+            if (grammarList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Qoidalar yo'q.</td></tr>`;
+                return;
+            }
+            let html = '';
+            grammarList.forEach(item => {
+                html += `
+                    <tr>
+                        <td><strong>${item.topic}</strong></td>
+                        <td style="font-size:13px; color:var(--text-muted); max-width:300px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.desc}</td>
+                        <td style="text-align:right;">
+                            <div style="display:inline-flex; gap:8px;">
+                                <button class="btn btn-outline btn-sm" onclick="editGrammar('${item.dbId}')">
+                                    <i class="ph ph-pencil"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteGrammar('${item.dbId}')">
+                                    <i class="ph ph-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        window.editGrammar = function(dbId) {
+            const item = grammarList.find(g => g.dbId === dbId);
+            if (!item) return;
+
+            document.getElementById('grammar-edit-id').value = dbId;
+            document.getElementById('grammar-topic').value = item.topic;
+            document.getElementById('grammar-desc').value = item.desc;
+            document.getElementById('btn-cancel-grammar-edit').style.display = 'inline-flex';
+        };
+
+        window.cancelGrammarEdit = function() {
+            document.getElementById('grammar-form').reset();
+            document.getElementById('grammar-edit-id').value = '';
+            document.getElementById('btn-cancel-grammar-edit').style.display = 'none';
+        };
+
+        window.saveGrammar = async function(e) {
+            e.preventDefault();
+            const dbId = document.getElementById('grammar-edit-id').value;
+            const topic = document.getElementById('grammar-topic').value;
+            const desc = document.getElementById('grammar-desc').value;
+
+            showLoader("Qoida saqlanmoqda...");
+            try {
+                if (dbId) {
+                    await updateDoc(doc(db, "grammar", dbId), { topic, desc });
+                    showToast("Grammatika qoidasi yangilandi!", 'success');
+                } else {
+                    await addDoc(collection(db, "grammar"), { topic, desc });
+                    showToast("Grammatika qoidasi qo'shildi!", 'success');
+                }
+                cancelGrammarEdit();
+                hideLoader();
+                fetchGrammar();
+            } catch (e) {
+                hideLoader();
+                showToast("Saqlashda xato", 'error');
+            }
+        };
+
+        window.deleteGrammar = async function(dbId) {
+            if(!confirm("Ushbu qoidani o'chirasizmi?")) return;
+            showLoader("Qoida o'chirilmoqda...");
+            try {
+                await deleteDoc(doc(db, "grammar", dbId));
+                hideLoader();
+                showToast("Grammatika o'chirildi", 'success');
+                fetchGrammar();
+            } catch (e) {
+                hideLoader();
+                showToast("O'chirishda xatolik yuz berdi", 'error');
+            }
+        };
+
+        // --- WRITING CRUD ---
+        async function fetchWritingTasks() {
+            try {
+                const snap = await getDocs(collection(db, "writing_tasks"));
+                writingTasks = [];
+                snap.forEach(doc => {
+                    writingTasks.push({ dbId: doc.id, ...doc.data() });
+                });
+                renderWritingTasks();
+                const statWritingEl = document.getElementById('stat-writing');
+                if (statWritingEl) statWritingEl.innerText = writingTasks.length;
+            } catch (e) {
+                console.error(e);
+                showToast("Writing topshiriqlarini yuklashda xatolik yuz berdi", 'error');
+            }
+        }
+
+        function renderWritingTasks() {
+            const tbody = document.getElementById('writing-table-body');
+            if (!tbody) return;
+            if (writingTasks.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Hozircha writing topshiriqlari yo'q.</td></tr>`;
+                return;
+            }
+            let html = '';
+            // Sort by level and test ID
+            writingTasks.sort((a,b) => {
+                if(a.level !== b.level) return (a.level || '').localeCompare(b.level || '');
+                return (a.id || 0) - (b.id || 0);
+            });
+            
+            writingTasks.forEach(task => {
+                const promptSnippet = task.prompt ? task.prompt.substring(0, 45) + '...' : 'Prompt yo\'q';
+                const hasImg = task.image ? '<span class="badge badge-success">Rasm</span>' : '';
+                const hasFile = task.attachment ? '<span class="badge badge-primary">Fayl</span>' : '';
+                const mediaStatus = [hasImg, hasFile].filter(Boolean).join(' ') || '<span class="badge badge-danger">Yo\'q</span>';
+                
+                html += `
+                    <tr>
+                        <td><span class="badge badge-warning">${task.level || 'General'}</span></td>
+                        <td><strong>Task #${task.id || 0}</strong></td>
+                        <td>${task.title || 'Mavzusiz'}</td>
+                        <td style="color:var(--text-muted); font-size:13px;">${promptSnippet}</td>
+                        <td>${mediaStatus}</td>
+                        <td style="text-align:right;">
+                            <div style="display:inline-flex; gap:8px;">
+                                <button class="btn btn-outline btn-sm" onclick="editWritingTask('${task.dbId}')">
+                                    <i class="ph ph-pencil"></i> Tahrirlash
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteWritingTask('${task.dbId}')">
+                                    <i class="ph ph-trash"></i> O'chirish
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        window.editWritingTask = function(dbId) {
+            const task = writingTasks.find(t => t.dbId === dbId);
+            if (!task) return;
+
+            document.getElementById('writing-edit-id').value = dbId;
+            document.getElementById('writing-task-level').value = task.level || 'IELTS Task 2';
+            document.getElementById('writing-task-id').value = task.id || 1;
+            document.getElementById('writing-task-title').value = task.title || '';
+            document.getElementById('writing-task-prompt').value = task.prompt || '';
+
+            // Image Preview
+            const imgPreviewContainer = document.getElementById('writing-task-image-preview');
+            const imgBase64Input = document.getElementById('writing-task-image-base64');
+            if (task.image) {
+                imgBase64Input.value = task.image;
+                imgPreviewContainer.querySelector('img').src = task.image;
+                imgPreviewContainer.style.display = 'block';
+            } else {
+                imgBase64Input.value = '';
+                imgPreviewContainer.style.display = 'none';
+            }
+
+            // File Preview
+            const filePreviewContainer = document.getElementById('writing-task-file-preview');
+            const fileBase64Input = document.getElementById('writing-task-file-base64');
+            const fileNameInput = document.getElementById('writing-task-file-name');
+            const fileInfoSpan = document.getElementById('writing-task-file-info');
+            if (task.attachment) {
+                fileBase64Input.value = task.attachment;
+                fileNameInput.value = task.attachment_name || 'attachment';
+                fileInfoSpan.innerHTML = `<i class="ph ph-file"></i> ${task.attachment_name || 'Ilova qilingan fayl'}`;
+                filePreviewContainer.style.display = 'block';
+            } else {
+                fileBase64Input.value = '';
+                fileNameInput.value = '';
+                filePreviewContainer.style.display = 'none';
+            }
+
+            document.getElementById('writing-form-title').innerText = "Writing Taskni Tahrirlash";
+            const formContainer = document.getElementById('form-writing-container');
+            formContainer.classList.add('open');
+            formContainer.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.saveWritingTask = async function(e) {
+            e.preventDefault();
+            const dbId = document.getElementById('writing-edit-id').value;
+            const level = document.getElementById('writing-task-level').value;
+            const id = parseInt(document.getElementById('writing-task-id').value);
+            const title = document.getElementById('writing-task-title').value;
+            const prompt = document.getElementById('writing-task-prompt').value;
+            
+            const image = document.getElementById('writing-task-image-base64').value;
+            const attachment = document.getElementById('writing-task-file-base64').value;
+            const attachment_name = document.getElementById('writing-task-file-name').value;
+
+            showLoader("Writing topshiriq saqlanmoqda...");
+            try {
+                const data = {
+                    level,
+                    id,
+                    title,
+                    prompt,
+                    image: image || null,
+                    attachment: attachment || null,
+                    attachment_name: attachment_name || null
+                };
+
+                if (dbId) {
+                    await updateDoc(doc(db, "writing_tasks", dbId), data);
+                    showToast("Writing topshiriq muvaffaqiyatli yangilandi!", 'success');
+                } else {
+                    await addDoc(collection(db, "writing_tasks"), data);
+                    showToast("Yangi writing topshiriq qo'shildi!", 'success');
+                }
+                
+                // Reset form & previews
+                document.getElementById('writing-task-form').reset();
+                document.getElementById('writing-edit-id').value = '';
+                clearWritingFile('image');
+                clearWritingFile('file');
+                document.getElementById('writing-form-title').innerText = "Yangi Writing Task qo'shish";
+                document.getElementById('form-writing-container').classList.remove('open');
+                
+                hideLoader();
+                fetchWritingTasks();
+            } catch (e) {
+                hideLoader();
+                showToast("Saqlashda xatolik yuz berdi: " + e.message, 'error');
+            }
+        };
+
+        window.deleteWritingTask = async function(dbId) {
+            if(!confirm("Ushbu topshiriqni butunlay o'chirmoqchimisiz?")) return;
+            showLoader("Topshiriq o'chirilmoqda...");
+            try {
+                await deleteDoc(doc(db, "writing_tasks", dbId));
+                hideLoader();
+                showToast("Writing topshiriq o'chirildi!", 'success');
+                fetchWritingTasks();
+            } catch (e) {
+                hideLoader();
+                showToast("O'chirishda xato yuz berdi: " + e.message, 'error');
+            }
+        };
+
+        // --- VIDEO LESSONS CRUD ---
+        async function fetchVideoLessons() {
+            try {
+                const snap = await getDocs(collection(db, "video_lessons"));
+                videoLessonsList = [];
+                snap.forEach(doc => {
+                    videoLessonsList.push({ dbId: doc.id, ...doc.data() });
+                });
+                renderVideoLessons();
+                const statVideosEl = document.getElementById('stat-videos');
+                if (statVideosEl) statVideosEl.innerText = videoLessonsList.length;
+            } catch (e) {
+                console.error(e);
+                showToast("Video darslarni yuklashda xatolik yuz berdi", 'error');
+            }
+        }
+
+        function renderVideoLessons() {
+            const tbody = document.getElementById('videos-table-body');
+            if (!tbody) return;
+            if (videoLessonsList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Hozircha video darslar yo'q.</td></tr>`;
+                return;
+            }
+            let html = '';
+            
+            // Sort by level and order
+            const levelOrder = { 'Grammar': 1, 'Vocabulary': 2, 'IELTS Prep': 3 };
+            videoLessonsList.sort((a, b) => {
+                const orderA = levelOrder[a.level] || 99;
+                const orderB = levelOrder[b.level] || 99;
+                if (orderA !== orderB) return orderA - orderB;
+                return (a.order || 0) - (b.order || 0);
+            });
+
+            videoLessonsList.forEach(video => {
+                html += `
+                    <tr>
+                        <td><span class="badge badge-warning">${video.level}</span></td>
+                        <td><strong>#${video.order || 0}</strong></td>
+                        <td><strong>${video.title || 'Mavzusiz'}</strong></td>
+                        <td><a href="${video.videoUrl}" target="_blank" style="color: var(--primary); text-decoration: none; font-family: monospace; font-size: 13px;">${video.videoUrl}</a></td>
+                        <td style="text-align:right;">
+                            <div style="display:inline-flex; gap:8px;">
+                                <button class="btn btn-outline btn-sm" onclick="editVideoLesson('${video.dbId}')">
+                                    <i class="ph ph-pencil"></i> Tahrirlash
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteVideoLesson('${video.dbId}')">
+                                    <i class="ph ph-trash"></i> O'chirish
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        window.editVideoLesson = function(dbId) {
+            const video = videoLessonsList.find(v => v.dbId === dbId);
+            if (!video) return;
+
+            document.getElementById('video-edit-id').value = dbId;
+            document.getElementById('video-level').value = video.level || 'Grammar';
+            document.getElementById('video-order').value = video.order || 1;
+            document.getElementById('video-title').value = video.title || '';
+            document.getElementById('video-url').value = video.videoUrl || '';
+            document.getElementById('video-description').value = video.description || '';
+
+            document.getElementById('videos-form-title').innerText = "Video Darsni Tahrirlash";
+            const formContainer = document.getElementById('form-videos-container');
+            formContainer.classList.add('open');
+            formContainer.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.saveVideoLesson = async function(e) {
+            e.preventDefault();
+            const dbId = document.getElementById('video-edit-id').value;
+            const level = document.getElementById('video-level').value;
+            const order = parseInt(document.getElementById('video-order').value);
+            const title = document.getElementById('video-title').value;
+            const videoUrl = document.getElementById('video-url').value;
+            const description = document.getElementById('video-description').value;
+
+            showLoader("Video dars saqlanmoqda...");
+            try {
+                const data = {
+                    level,
+                    order,
+                    title,
+                    videoUrl,
+                    description: description || ''
+                };
+
+                if (dbId) {
+                    await updateDoc(doc(db, "video_lessons", dbId), data);
+                    showToast("Video dars muvaffaqiyatli yangilandi!", 'success');
+                } else {
+                    await addDoc(collection(db, "video_lessons"), data);
+                    showToast("Yangi video dars qo'shildi!", 'success');
+                }
+
+                // Reset form
+                document.getElementById('video-lesson-form').reset();
+                document.getElementById('video-edit-id').value = '';
+                document.getElementById('videos-form-title').innerText = "Yangi Video Dars qo'shish";
+                document.getElementById('form-videos-container').classList.remove('open');
+
+                hideLoader();
+                fetchVideoLessons();
+            } catch (e) {
+                hideLoader();
+                showToast("Saqlashda xatolik yuz berdi: " + e.message, 'error');
+            }
+        };
+
+        window.deleteVideoLesson = async function(dbId) {
+            if(!confirm("Ushbu video darsni butunlay o'chirmoqchimisiz?")) return;
+            showLoader("Video dars o'chirilmoqda...");
+            try {
+                await deleteDoc(doc(db, "video_lessons", dbId));
+                hideLoader();
+                showToast("Video dars o'chirildi!", 'success');
+                fetchVideoLessons();
+            } catch (e) {
+                hideLoader();
+                showToast("O'chirishda xato yuz berdi: " + e.message, 'error');
+            }
+        };
+
+        // File converters to Base64
+        window.handleWritingFileConvert = function(inputEl, type) {
+            const file = inputEl.files[0];
+            if (!file) return;
+
+            // Check size limit: 800KB
+            if (file.size > 800 * 1024) {
+                alert("Fayl hajmi juda katta! Maksimal hajm 800 KB bo'lishi kerak. Firebase cheklovlari tufayli.");
+                inputEl.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const base64Data = event.target.result;
+                if (type === 'image') {
+                    document.getElementById('writing-task-image-base64').value = base64Data;
+                    const preview = document.getElementById('writing-task-image-preview');
+                    preview.querySelector('img').src = base64Data;
+                    preview.style.display = 'block';
+                } else if (type === 'file') {
+                    document.getElementById('writing-task-file-base64').value = base64Data;
+                    document.getElementById('writing-task-file-name').value = file.name;
+                    const preview = document.getElementById('writing-task-file-preview');
+                    document.getElementById('writing-task-file-info').innerHTML = `<i class="ph ph-file"></i> ${file.name}`;
+                    preview.style.display = 'block';
+                }
+            };
+            reader.readAsDataURL(file);
+        };
+
+        window.clearWritingFile = function(type) {
+            if (type === 'image') {
+                document.getElementById('writing-task-image-input').value = '';
+                document.getElementById('writing-task-image-base64').value = '';
+                document.getElementById('writing-task-image-preview').style.display = 'none';
+            } else if (type === 'file') {
+                document.getElementById('writing-task-file-input').value = '';
+                document.getElementById('writing-task-file-base64').value = '';
+                document.getElementById('writing-task-file-name').value = '';
+                document.getElementById('writing-task-file-preview').style.display = 'none';
+            }
+        };
+
+        // Load initial data
+        async function loadAllData() {
+            showLoader("Barcha ma'lumotlar sinxronizatsiya qilinmoqda...");
+            await Promise.all([
+                fetchStudents(),
+                fetchReadingTests(),
+                fetchListeningTests(),
+                fetchPhrases(),
+                fetchGrammar(),
+                fetchWritingTasks(),
+                fetchVideoLessons()
+            ]);
+            hideLoader();
+        }
+    </script>
+</body>
+</html>

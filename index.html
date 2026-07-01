@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Perfection English School</title>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css?v=3">
+    <!-- Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="app-container not-registered">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <i class="ph ph-text-align-left" id="menu-btn"></i>
+                <h1 class="app-title">Perfection School</h1>
+            </div>
+            <div class="header-right">
+                <div class="streak-badge">
+                    <i class="ph-fill ph-fire"></i>
+                    <span>12</span>
+                </div>
+                <i class="ph ph-bell"></i>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <!-- SECTION: AUTH (Registration) -->
+            <!-- SECTION: AUTH NAME -->
+            <section id="auth-name-section" class="app-section active">
+                <div class="welcome-area text-center" style="margin-top: 40px;">
+                    <div class="brand-logo-container mx-auto mb-4" style="margin: 0 auto 20px; text-align: center;">
+                        <img src="logo.jpg" alt="Perfection English School" style="max-width: 250px; width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    </div>
+                    <h2>Welcome to our School!</h2>
+                    <p>Let's set up your profile</p>
+                </div>
+                <form id="reg-name-form" class="auth-form glass-card" style="margin-top: 30px;">
+                    <div class="form-group mb-4">
+                        <label>What's your full name?</label>
+                        <input type="text" id="reg-name" placeholder="e.g., Azizbek Rustamov" required>
+                    </div>
+                    <button type="submit" class="btn-primary w-100" style="padding: 14px; font-size: 16px; display:flex; justify-content:center; align-items:center; gap:8px;">Next <i class="ph ph-arrow-right"></i></button>
+                </form>
+            </section>
+
+            <!-- SECTION: AUTH PHONE -->
+            <section id="auth-phone-section" class="app-section">
+                <div class="section-header" style="display: flex; align-items: center; gap: 10px; margin-top: 20px;">
+                    <button type="button" class="btn-icon" onclick="switchTab('auth-name')" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
+                    <h2 style="margin:0;">Contact Info</h2>
+                </div>
+                <form id="reg-phone-form" class="auth-form glass-card" style="margin-top: 20px;">
+                    <div class="form-group mb-4">
+                        <label>Your Phone Number</label>
+                        <input type="tel" id="reg-phone" placeholder="+998" required>
+                    </div>
+                    <button type="submit" class="btn-primary w-100" style="padding: 14px; font-size: 16px; display:flex; justify-content:center; align-items:center; gap:8px;">Next <i class="ph ph-arrow-right"></i></button>
+                </form>
+            </section>
+
+            <!-- SECTION: AUTH LEVEL -->
+            <section id="auth-level-section" class="app-section">
+                <div class="section-header" style="display: flex; align-items: center; gap: 10px; margin-top: 20px;">
+                    <button type="button" class="btn-icon" onclick="switchTab('auth-phone')" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
+                    <h2 style="margin:0;">English Level</h2>
+                </div>
+                <form id="reg-level-form" class="auth-form glass-card" style="margin-top: 20px;">
+                    <div class="form-group mb-4">
+                        <label>Select your current level</label>
+                        <select id="reg-level" required>
+                            <option value="" disabled selected>Select level</option>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Elementary">Elementary</option>
+                            <option value="Pre-Intermediate">Pre-Intermediate</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Upper-Intermediate">Upper-Intermediate</option>
+                            <option value="Pre-IELTS">Pre-IELTS</option>
+                            <option value="IELTS">IELTS</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary w-100" style="padding: 14px; font-size: 16px; background: var(--success-color); display:flex; justify-content:center; align-items:center; gap:8px;">Finish <i class="ph ph-check"></i></button>
+                </form>
+            </section>
+
+            <!-- SECTION: HOME -->
+            <section id="home-section" class="app-section">
+                <div class="welcome-area">
+                    <h2>Hello, Student 👋</h2>
+                    <p>What are we learning today?</p>
+                </div>
+
+                <!-- Vocabulary of the Day Widget -->
+                <div class="vocab-widget">
+                    <div class="vocab-header">
+                        <span class="vocab-title"><i class="ph-fill ph-star"></i> Word of the Day</span>
+                        <span class="vocab-date">Today</span>
+                    </div>
+                    <div class="vocab-content">
+                        <div class="vocab-word">Perseverance</div>
+                        <div class="vocab-pronunciation">/ˌpɜːrsəˈvɪrəns/</div>
+                        <div class="vocab-meaning">Persistence in doing something despite difficulty.</div>
+                    </div>
+                </div>
+
+                <!-- Main Banner -->
+                <div class="banner-card" onclick="switchTab('lessons')">
+                    <div class="banner-content">
+                        <h2>LEARN<br>ENGLISH<br>WITH US!</h2>
+                        <div class="progress-container mt-2">
+                            <div class="progress-text">
+                                <span>Pre-IELTS Course</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="banner-image">
+                        <img src="https://illustrations.popsy.co/blue/student-going-to-school.svg" alt="Education">
+                    </div>
+                </div>
+
+                <!-- Grid Cards -->
+                <div class="grid-container">
+                    <div class="grid-card" onclick="switchTab('lessons')">
+                        <div class="card-icon-wrapper blue-icon">
+                            <i class="ph ph-books"></i>
+                        </div>
+                        <span class="card-title">Lessons</span>
+                    </div>
+                    <div class="grid-card" onclick="switchTab('reading')">
+                        <div class="card-icon-wrapper orange-icon">
+                            <i class="ph ph-book-open"></i>
+                        </div>
+                        <span class="card-title">Reading</span>
+                    </div>
+                    <div class="grid-card" onclick="switchTab('listening')">
+                        <div class="card-icon-wrapper green-icon">
+                            <i class="ph ph-headphones"></i>
+                        </div>
+                        <span class="card-title">Listening</span>
+                    </div>
+                    <div class="grid-card" onclick="switchTab('speaking')">
+                        <div class="card-icon-wrapper" style="color:var(--danger-color); background: rgba(239, 68, 68, 0.1);">
+                            <i class="ph ph-microphone"></i>
+                        </div>
+                        <span class="card-title">Speaking</span>
+                    </div>
+                    <div class="grid-card" onclick="switchTab('writing')">
+                        <div class="card-icon-wrapper purple-icon">
+                            <i class="ph ph-robot"></i>
+                        </div>
+                        <span class="card-title">Writing</span>
+                    </div>
+                    <div class="grid-card" onclick="switchTab('rating')">
+                        <div class="card-icon-wrapper" style="color:var(--secondary-color);">
+                            <i class="ph ph-trophy"></i>
+                        </div>
+                        <span class="card-title">Ranking</span>
+                    </div>
+                    <div class="grid-card" onclick="switchTab('resources')">
+                        <div class="card-icon-wrapper" style="color:var(--danger-color);">
+                            <i class="ph ph-folder-open"></i>
+                        </div>
+                        <span class="card-title">Resources</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: LESSONS -->
+            <section id="lessons-section" class="app-section">
+                <div class="section-header">
+                    <h2>Video Lessons</h2>
+                    <p>Learn English with our best video lessons</p>
+                </div>
+                
+                <!-- Category Filter Chips -->
+                <div class="filter-chips-container" style="display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 16px; scrollbar-width: none;">
+                    <button class="filter-chip active" id="chip-all" onclick="filterVideoLessons('all')">All</button>
+                    <button class="filter-chip" id="chip-grammar" onclick="filterVideoLessons('Grammar')">Grammar</button>
+                    <button class="filter-chip" id="chip-vocabulary" onclick="filterVideoLessons('Vocabulary')">Vocabulary</button>
+                    <button class="filter-chip" id="chip-ielts" onclick="filterVideoLessons('IELTS Prep')">IELTS Prep</button>
+                </div>
+
+                <!-- Video Player Container (Hidden by default, secure overlays) -->
+                <div id="video-player-container" style="display: none; background: var(--bg-card); border-radius: var(--border-radius-md); padding: 12px; margin-bottom: 20px; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <h4 id="current-playing-title" style="margin: 0; font-size: 14px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80%;">Dars videosi</h4>
+                        <button onclick="closeVideoPlayer()" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; font-size: 18px; transition: all 0.2s;"><i class="ph ph-x"></i></button>
+                    </div>
+                    
+                    <!-- Secure Wrapper to block context menu and easy copying -->
+                    <div id="secure-video-wrapper" style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; background-color: #000;" oncontextmenu="return false;">
+                        <iframe id="video-player-iframe" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <!-- Overlay transparent div to prevent direct interaction with top portion (YouTube links, share button) -->
+                        <div id="secure-player-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: calc(100% - 50px); pointer-events: auto; background: transparent; z-index: 10;"></div>
+                    </div>
+                    <p id="current-playing-desc" style="margin: 8px 0 0; font-size: 12px; color: var(--text-muted); line-height: 1.5;"></p>
+                    
+                    <!-- Video MCQ Section -->
+                    <div id="video-mcq-container" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color);">
+                        <h4 style="font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 10px;"><i class="ph-fill ph-question"></i> Dars bo'yicha test</h4>
+                        <p id="video-mcq-question" style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">What is the main topic of this video?</p>
+                        <div id="video-mcq-options" style="display: flex; flex-direction: column; gap: 8px;">
+                            <!-- Options rendered by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Lessons Grid -->
+                <div class="video-grid" id="video-lessons-grid">
+                    <!-- Loaded dynamically via JS -->
+                </div>
+            </section>
+
+            <!-- SECTION: RATING (LEADERBOARD) -->
+            <section id="rating-section" class="app-section">
+                <div class="section-header text-center">
+                    <h2>Leaderboard</h2>
+                    <p>Most active students</p>
+                </div>
+
+                <div class="podium-container">
+                    <!-- Podium will be dynamically injected by JS -->
+                </div>
+
+                <div class="leaderboard-list">
+                    <!-- List will be dynamically injected by JS -->
+                </div>
+            </section>
+
+            <!-- SECTION: RESOURCES -->
+            <section id="resources-section" class="app-section">
+                <div class="section-header">
+                    <h2>Extra Resources</h2>
+                    <!-- Search inside resources -->
+                    <div class="search-box mb-4">
+                        <i class="ph ph-magnifying-glass search-icon"></i>
+                        <input type="text" placeholder="Search topics..." class="search-input">
+                    </div>
+                </div>
+
+                <div class="resource-grid">
+                    <div class="resource-card" onclick="openResource('alphabet')">
+                        <div class="r-icon bg-blue"><i class="ph ph-text-aa"></i></div>
+                        <h4>Alphabet</h4>
+                        <p>Letters and pronunciation</p>
+                    </div>
+                    <div class="resource-card" onclick="openResource('numbers')">
+                        <div class="r-icon bg-green"><i class="ph ph-list-numbers"></i></div>
+                        <h4>Numbers</h4>
+                        <p>From 1 to 1000</p>
+                    </div>
+                    <div class="resource-card" onclick="openResource('phrases')">
+                        <div class="r-icon bg-orange"><i class="ph ph-chat-circle-text"></i></div>
+                        <h4>Phrases</h4>
+                        <p>For daily conversation</p>
+                    </div>
+                    <div class="resource-card" onclick="openResource('grammar')">
+                        <div class="r-icon bg-purple"><i class="ph ph-books"></i></div>
+                        <h4>Grammar</h4>
+                        <p>Basic rules</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: ALPHABET DETAIL -->
+            <section id="alphabet-section" class="app-section">
+                <div class="section-header" style="display: flex; align-items: center; gap: 10px;">
+                    <button class="btn-icon" onclick="switchTab('resources')" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
+                    <div>
+                        <h2 style="margin:0;">English Alphabet</h2>
+                        <p>26 letters and pronunciation</p>
+                    </div>
+                </div>
+                
+                <div class="dictionary-list">
+                    <!-- Javascript will populate this -->
+                </div>
+            </section>
+
+            <!-- SECTION: NUMBERS DETAIL -->
+            <section id="numbers-section" class="app-section">
+                <div class="section-header" style="display: flex; align-items: center; gap: 10px;">
+                    <button class="btn-icon" onclick="switchTab('resources')" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
+                    <div>
+                        <h2 style="margin:0;">Numbers</h2>
+                        <p>Let's learn English numbers</p>
+                    </div>
+                </div>
+                
+                <div class="dictionary-list" id="numbers-list">
+                    <!-- Javascript will populate this -->
+                </div>
+            </section>
+
+            <!-- SECTION: WRITING AI -->
+            <section id="writing-section" class="app-section">
+                <div class="section-header" style="display: flex; align-items: center; gap: 10px;">
+                    <button class="btn-icon" onclick="switchTab('home')" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
+                    <div>
+                        <h2 style="margin:0;">Writing Checker</h2>
+                        <p>Check your essay and get a score</p>
+                    </div>
+                </div>
+                
+                <div class="writing-container">
+                    <div class="form-group mb-4" id="writing-topic-selector-container">
+                        <label>Writing Topic (Mavzu):</label>
+                        <select id="writing-topic-select" class="custom-select">
+                            <option value="free">Free Topic / Erkin mavzu</option>
+                            <!-- Loaded from Firestore -->
+                        </select>
+                    </div>
+
+                    <!-- Tanlangan mavzu tafsilotlari -->
+                    <div id="writing-topic-details" class="result-card mb-4" style="display: none; background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.2);">
+                        <h4 id="writing-topic-title" style="color: var(--primary-color); margin-bottom: 8px; font-weight: 700;"></h4>
+                        <p id="writing-topic-prompt" style="font-style: italic; margin-bottom: 12px; white-space: pre-wrap; color: var(--text-main); font-size: 14px; line-height: 1.5;"></p>
+                        
+                        <!-- Rasm (agar mavjud bo'lsa) -->
+                        <div id="writing-topic-image-container" style="display: none; margin-bottom: 12px; border-radius: 8px; overflow: hidden; max-width: 100%; text-align: center;">
+                            <img id="writing-topic-img" src="" alt="Topic Image" style="max-width: 100%; max-height: 300px; object-fit: contain; border-radius: 8px;">
+                        </div>
+
+                        <!-- Biriktirilgan fayl/hujjat -->
+                        <div id="writing-topic-attachment-container" style="display: none;">
+                            <a id="writing-topic-attachment-link" href="#" download="" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; font-size: 13px; text-decoration: none; border-radius: 6px; cursor: pointer; color: white;">
+                                <i class="ph ph-download-simple"></i> <span id="writing-topic-attachment-name">Yuklab olish</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label>Task Type:</label>
+                        <select id="writing-type" class="custom-select">
+                            <optgroup label="CEFR (Multilevel)">
+                                <option value="CEFR Part 1.1">Informal Letter (min 50 words)</option>
+                                <option value="CEFR Part 1.2">Formal Letter (120-150 words)</option>
+                                <option value="CEFR Part 2">Blogpost (180-200 words)</option>
+                            </optgroup>
+                            <optgroup label="IELTS (Academic)">
+                                <option value="IELTS Task 1">Task 1 (150 words)</option>
+                                <option value="IELTS Task 2" selected>Task 2 (250 words)</option>
+                            </optgroup>
+                            <optgroup label="Other">
+                                <option value="General">Free topic / General</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group mb-4">
+                        <label>Write your essay here:</label>
+                        <textarea id="writing-text" class="w-100" rows="10" placeholder="I think that..." style="padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); font-family: inherit; resize: vertical;"></textarea>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label>Or Upload Image of your writing (Optional):</label>
+                        <div class="upload-zone-wrapper mt-2">
+                            <input type="file" id="writing-image" accept="image/*" hidden>
+                            <label for="writing-image" class="upload-label" id="upload-label">
+                                <div class="upload-icon"><i class="ph ph-camera"></i></div>
+                                <div class="upload-text-content">
+                                    <div class="upload-title">Snap a photo</div>
+                                    <div class="upload-subtitle">Take a picture of your notebook</div>
+                                </div>
+                            </label>
+                        </div>
+                        <div id="image-preview-container" class="image-preview-wrapper" style="display: none;">
+                            <img id="preview-img" src="" alt="Preview">
+                            <button id="remove-image-btn" class="btn-remove-img" type="button"><i class="ph ph-x"></i></button>
+                        </div>
+                    </div>
+                    
+                    <button id="check-writing-btn" class="btn-primary w-100" style="padding: 14px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <i class="ph ph-sparkle"></i> Check
+                    </button>
+                    
+                    <!-- Loading State -->
+                    <div id="writing-loading" class="text-center mt-4" style="display: none;">
+                        <i class="ph ph-spinner ph-spin" style="font-size: 32px; color: var(--primary-color);"></i>
+                        <p style="margin-top: 10px; font-size: 14px; color: var(--text-muted);">Checking your essay... Please wait.</p>
+                    </div>
+                    
+                    <!-- Results Area -->
+                    <div id="writing-results" class="mt-4" style="display: none;">
+                        <div class="result-card band-card mb-4">
+                            <h3>Overall Band</h3>
+                            <div class="band-score" id="res-band">6.5</div>
+                        </div>
+                        
+                        <div class="result-card mb-4">
+                            <h4><i class="ph ph-text-aa text-blue"></i> Grammar</h4>
+                            <p id="res-grammar">Loading...</p>
+                        </div>
+                        
+                        <div class="result-card mb-4">
+                            <h4><i class="ph ph-book text-green"></i> Vocabulary</h4>
+                            <p id="res-vocab">Loading...</p>
+                        </div>
+                        
+                        <div class="result-card mb-4">
+                            <h4><i class="ph ph-link text-orange"></i> Coherence & Cohesion</h4>
+                            <p id="res-coherence">Loading...</p>
+                        </div>
+                        
+                        <div class="result-card mb-4">
+                            <h4><i class="ph ph-lightbulb text-yellow"></i> General Feedback</h4>
+                            <p id="res-general">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: SPEAKING -->
+            <section id="speaking-section" class="app-section">
+                <div class="section-header" style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+                    <button class="btn-icon" id="speaking-back-btn" onclick="handleSpeakingBack()" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
+                    <div>
+                        <h2 id="speaking-main-title" style="margin:0;">Speaking Practice</h2>
+                        <p id="speaking-main-subtitle">CEFR / DTM Multi-level format</p>
+                    </div>
+                </div>
+                
+                <div id="speaking-content-container"></div>
+            </section>
+
+            <!-- SECTION: PROFILE -->
+            <section id="profile-section" class="app-section">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img src="https://i.pravatar.cc/150?u=2" alt="Profile">
+                        <button class="edit-avatar"><i class="ph ph-camera"></i></button>
+                    </div>
+                    <h2 class="profile-name">Student</h2>
+                    <p class="profile-phone" style="color:var(--text-muted); font-size:14px; margin-bottom:4px;"></p>
+                    <p class="profile-role">Student</p>
+                    <!-- Role Switcher for Demo -->
+                    <button class="role-switch-btn" onclick="toggleRole()">Switch to Teacher Profile (Demo)</button>
+                    <!-- Buy Premium Button -->
+                    <button class="btn-primary" id="btn-buy-premium" onclick="openPaymentModal()" style="margin-top: 15px; width: 100%; background: linear-gradient(135deg, #FFD700, #F5A623); color: #000; font-weight: 800; border: none; box-shadow: 0 4px 15px rgba(245, 166, 35, 0.4);">
+                        <i class="ph-fill ph-crown"></i> Go Premium (One-time)
+                    </button>
+                </div>
+
+                <!-- Student Profile Stats -->
+                <!-- Student Profile Stats -->
+                <div id="student-stats" class="profile-stats">
+                    <div class="stat-box">
+                        <i class="ph-fill ph-fire text-orange"></i>
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">Day streak</span>
+                    </div>
+                    <div class="stat-box">
+                        <i class="ph-fill ph-star text-yellow"></i>
+                        <span class="stat-value">0 xp</span>
+                        <span class="stat-label">Total XP</span>
+                    </div>
+                    <div class="stat-box">
+                        <i class="ph-fill ph-book-open text-blue"></i>
+                        <span class="stat-value">24</span>
+                        <span class="stat-label">Lessons</span>
+                    </div>
+                </div>
+
+                <!-- Streak Calendar Container -->
+                <div id="streak-calendar-container">
+                    <!-- Calendar will be injected by JS -->
+                </div>
+
+                <!-- Teacher Profile Stats (Hidden by default) -->
+                <div id="teacher-stats" class="profile-stats" style="display: none;">
+                    <div class="stat-box">
+                        <i class="ph-fill ph-users text-blue"></i>
+                        <span class="stat-value">145</span>
+                        <span class="stat-label">Students</span>
+                    </div>
+                    <div class="stat-box">
+                        <i class="ph-fill ph-chalkboard-teacher text-green"></i>
+                        <span class="stat-value">6</span>
+                        <span class="stat-label">Groups</span>
+                    </div>
+                    <div class="stat-box">
+                        <i class="ph-fill ph-star text-yellow"></i>
+                        <span class="stat-value">4.9</span>
+                        <span class="stat-label">Ranking</span>
+                    </div>
+                </div>
+
+                <div class="profile-menu">
+                    <div class="menu-item" onclick="switchTab('settings')">
+                        <div class="menu-item-left">
+                            <div class="menu-icon"><i class="ph ph-gear"></i></div>
+                            <span>Settings & Appearance</span>
+                        </div>
+                        <i class="ph ph-caret-right"></i>
+                    </div>
+                    <div class="menu-item text-red" onclick="logOut()">
+                        <div class="menu-item-left">
+                            <div class="menu-icon"><i class="ph ph-sign-out"></i></div>
+                            <span>Log Out</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: SETTINGS -->
+            <section id="settings-section" class="app-section">
+                <div class="section-header" style="display: flex; align-items: center; gap: 10px;">
+                    <button class="btn-icon" onclick="switchTab('profile')" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
+                    <h2 style="margin:0;">Settings</h2>
+                </div>
+                <div class="profile-menu mt-4">
+                    <div class="menu-item" style="display:flex; justify-content:space-between; align-items:center;">
+                          <div class="menu-item-left">
+                              <div class="menu-icon bg-purple" style="background:#8b5cf6; color:white;"><i class="ph ph-moon"></i></div>
+                              <span>Dark Mode</span>
+                          </div>
+                          <label class="switch">
+                              <input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()">
+                              <span class="slider"></span>
+                          </label>
+                      </div>
+                      <div class="menu-item" onclick="openEditProfileModal()">
+                          <div class="menu-item-left">
+                              <div class="menu-icon bg-blue" style="background:#2563eb; color:white;"><i class="ph ph-user-circle"></i></div>
+                              <span>Edit Profile</span>
+                          </div>
+                          <i class="ph ph-caret-right"></i>
+                      </div>
+                </div>
+            </section>
+
+            <!-- SECTION: PHRASES DETAIL -->
+            <section id="phrases-section" class="app-section">
+                <div class="section-header" style="display: flex; align-items: center; gap: 10px;">
+                    <button class="btn-icon" onclick="switchTab('resources')" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
+                    <div>
+                        <h2 style="margin:0;">Phrases</h2>
+                        <p>Daily English Conversations</p>
+                    </div>
+                </div>
+                <div class="dictionary-list" id="phrases-list"></div>
+            </section>
+
+            <!-- SECTION: GRAMMAR DETAIL -->
+            <section id="grammar-section" class="app-section">
+                <div class="section-header" style="display: flex; align-items: center; gap: 10px;">
+                    <button class="btn-icon" onclick="switchTab('resources')" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
+                    <div>
+                        <h2 style="margin:0;">Grammar</h2>
+                        <p>Basic English Rules</p>
+                    </div>
+                </div>
+                <div class="dictionary-list" id="grammar-list"></div>
+            </section>
+
+            <!-- SECTION: READING -->
+            <section id="reading-section" class="app-section">
+                <div class="section-header" style="display: flex; align-items: center; gap: 10px;">
+                    <button class="btn-icon" onclick="switchTab('home')" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
+                    <div>
+                        <h2 style="margin:0;">Reading Practice</h2>
+                        <p>Improve your reading skills</p>
+                    </div>
+                </div>
+                
+                <!-- Container for levels or active test -->
+                <div id="reading-content-container"></div>
+            </section>
+
+            <!-- SECTION: LISTENING -->
+            <section id="listening-section" class="app-section">
+                <div class="section-header" style="display: flex; align-items: center; gap: 10px;">
+                    <button class="btn-icon" onclick="switchTab('home')" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
+                    <div>
+                        <h2 style="margin:0;">Listening Practice</h2>
+                        <p>Enhance your listening</p>
+                    </div>
+                </div>
+                
+                <!-- Container for levels or active test -->
+                <div id="listening-content-container"></div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" data-target="home">
+                <i class="ph ph-house"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item" data-target="lessons">
+                <i class="ph ph-play-circle"></i>
+                <span>Lessons</span>
+            </a>
+            <a href="#" class="nav-item" data-target="rating">
+                <i class="ph ph-ranking"></i>
+                <span>Ranking</span>
+            </a>
+            <a href="#" class="nav-item" data-target="resources">
+                <i class="ph ph-books"></i>
+                <span>Resources</span>
+            </a>
+            <a href="#" class="nav-item" data-target="profile">
+                <i class="ph ph-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Payment Modal (Mock) -->
+    <div class="modal" id="payment-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center; padding: 20px;">
+        <div class="glass-card" style="width: 100%; max-width: 350px; background: var(--bg-card); border-radius: 20px; padding: 24px; position: relative;">
+            <button onclick="closePaymentModal()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--text-muted); font-size: 24px;"><i class="ph ph-x"></i></button>
+            
+            <div style="text-align: center; margin-bottom: 20px;">
+                <i class="ph-fill ph-crown" style="font-size: 48px; color: #FFD700; margin-bottom: 10px; text-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);"></i>
+                <h3 style="font-size: 20px; font-weight: 800; color: var(--text-main); margin-bottom: 5px;">Unlock Premium</h3>
+                <p style="font-size: 13px; color: var(--text-muted);">One-time payment for lifetime access to advanced features.</p>
+                <h2 style="font-size: 28px; font-weight: 800; color: var(--primary-color); margin: 15px 0;">99,000 UZS</h2>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button onclick="processMockPayment('Click')" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: #00AEEF; color: #fff; border: none; border-radius: 12px; padding: 15px; font-weight: 700; font-size: 16px; cursor: pointer; transition: transform 0.2s;">
+                    Pay with CLICK
+                </button>
+                <button onclick="processMockPayment('Payme')" style="display: flex; align-items: center; justify-content: center; gap: 10px; background: #33CCCC; color: #fff; border: none; border-radius: 12px; padding: 15px; font-weight: 700; font-size: 16px; cursor: pointer; transition: transform 0.2s;">
+                    Pay with PAYME
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="premium-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center;">
+        <div class="premium-modal" style="text-align: center; max-width: 90%; width: 350px; background: var(--bg-card); padding: 20px; border-radius: 20px;">
+            <h2 style="margin-bottom: 20px; font-weight: 700;">Edit Profile</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <div class="avatar-circle" style="width: 80px; height: 80px; margin: 0 auto; margin-bottom: 10px; cursor: pointer; position: relative;" onclick="document.getElementById('avatar-upload-input').click()">
+                    <img id="edit-profile-avatar-preview" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                    <div style="position: absolute; bottom: 0; right: 0; background: var(--primary-color); border-radius: 50%; padding: 6px; color: white; display:flex; align-items:center; justify-content:center;">
+                        <i class="ph-fill ph-camera"></i>
+                    </div>
+                </div>
+                <input type="file" id="avatar-upload-input" accept="image/*" style="display:none;" onchange="previewEditAvatar(event)">
+                <p style="font-size: 12px; color: var(--text-muted);">Tap to change avatar</p>
+            </div>
+
+            <div class="form-group text-left" style="text-align: left; margin-bottom: 20px;">
+                <label style="font-size: 14px; font-weight: 600; color: var(--text-muted);">Nickname</label>
+                <input type="text" id="edit-profile-name" class="custom-input" placeholder="Enter your name" style="margin-top: 5px; width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-outline w-100" onclick="closeEditProfileModal()" style="padding: 12px; border-radius: 12px; cursor: pointer;">Cancel</button>
+                <button class="btn-primary w-100" id="save-profile-btn" onclick="saveProfileChanges()" style="padding: 12px; border-radius: 12px; margin-top: 0; cursor: pointer;">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Configuration and SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, setDoc, doc, updateDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCl8oeI8yYddF-YuSuhCGN6fqZiEechjn8",
+            authDomain: "perfection-school.firebaseapp.com",
+            projectId: "perfection-school",
+            storageBucket: "perfection-school.firebasestorage.app",
+            messagingSenderId: "793168534663",
+            appId: "1:793168534663:web:ad375713f143481b4a2c22",
+            measurementId: "G-87NPRELTDH"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Make db globally available
+        window.firebaseDB = db;
+        window.firebaseCollection = collection;
+        window.firebaseAddDoc = addDoc;
+        window.firebaseGetDocs = getDocs;
+        window.firebaseSetDoc = setDoc;
+        window.firebaseDoc = doc;
+        window.firebaseUpdateDoc = updateDoc;
+        window.firebaseGetDoc = getDoc;
+        window.firebaseDeleteDoc = deleteDoc;
+    </script>
+    <script src="tests.js"></script>
+    <script src="app.js?v=4"></script>
+</body>
+</html>
