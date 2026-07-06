@@ -23,13 +23,6 @@ class WritingRequest(BaseModel):
     prompt: Optional[str] = ""
     telegram_id: Optional[str] = None # Foydalanuvchini aniqlash uchun
 
-class OnboardRequest(BaseModel):
-    telegram_id: str
-    full_name: str
-    phone_number: str
-    level: str
-
-
 # Groq API ni sozlash
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
 if GROQ_API_KEY:
@@ -37,23 +30,8 @@ if GROQ_API_KEY:
 else:
     client = None
 
-# ----------------- YANGI API LAR (Database va Gamification) -----------------
-
-@app.post("/api/users/onboard")
-async def onboard_user(req: OnboardRequest, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.telegram_id == req.telegram_id).first()
-    if user:
-        # User already exists, update login/streak
-        user.last_login = datetime.utcnow()
-        db.commit()
-        db.refresh(user)
-        return {"status": "success", "message": "User logged in", "points": user.points}
-    else:
-        # Create new user
-        new_user = models.User(
-            telegram_id=req.telegram_id,
-            full_name=req.full_name,
 # -------------------------------------------------------------------------
+
 
 @app.post("/api/check_writing")
 async def check_writing(req: WritingRequest):
