@@ -298,6 +298,57 @@ window.renderStreakCalendar = function(loginHistory) {
     container.innerHTML = html;
 }
 
+// Data Sync Logic for Profile and Gamification
+window.syncUserData = async function() {
+    const userId = localStorage.getItem('firebase_user_id');
+    if (!userId || !window.firebaseDB || !window.firebaseGetDoc || !window.firebaseDoc) return;
+    
+    try {
+        const userRef = window.firebaseDoc(window.firebaseDB, "users", userId);
+        const docSnap = await window.firebaseGetDoc(userRef);
+        
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            
+            // 1. Sync Progress (Completed Lessons)
+            if (data.completed_lessons) {
+                window.userCompletedLessons = data.completed_lessons;
+            }
+            const lsEl = document.getElementById('profile-stat-lessons');
+            if (lsEl) lsEl.innerText = window.userCompletedLessons.length;
+            
+            // 2. Sync Profile Stats
+            const realXP = data.xp || 0;
+            const streak = data.streak || 0;
+            const isPremium = data.isPremium || false;
+            
+            localStorage.setItem('user_xp', realXP);
+            localStorage.setItem('is_premium', isPremium ? 'true' : 'false');
+            
+            const xpEl = document.getElementById('profile-stat-xp');
+            if (xpEl) xpEl.innerText = realXP + ' xp';
+            
+            const streakEl = document.getElementById('profile-stat-streak');
+            if (streakEl) streakEl.innerText = streak;
+            
+            // Re-render Video Grid if it's open to show checkmarks
+            if (window.filterVideoLessons) {
+                const activeChip = document.querySelector('.filter-chip.active');
+                if (activeChip) {
+                    const cat = activeChip.innerText.toLowerCase() === 'all' ? 'all' : activeChip.innerText;
+                    window.filterVideoLessons(cat);
+                }
+            }
+            
+            // Run existing checkAndUpdateStreak logic for today's increment
+            if (window.checkAndUpdateStreak) {
+                window.checkAndUpdateStreak();
+            }
+        }
+    } catch(e) {
+        console.error("Error syncing user data:", e);
+    }
+}
     
     window.nextAuthStep = function(stepNumber) {
         document.querySelectorAll('.auth-step').forEach(step => step.classList.remove('active'));
@@ -383,9 +434,13 @@ window.renderStreakCalendar = function(loginHistory) {
             appContainer.classList.remove('not-registered');
         }
         
-        // Gamification: Update Streak
+        // Gamification: Update Streak and Sync Data
         setTimeout(() => {
-            if (window.checkAndUpdateStreak) window.checkAndUpdateStreak();
+            if (window.syncUserData) {
+                window.syncUserData();
+            } else if (window.checkAndUpdateStreak) {
+                window.checkAndUpdateStreak();
+            }
             updateUserUI(); // Safe to update UI after a delay
         }, 500); 
 
@@ -1803,6 +1858,7 @@ window.uploadAvatar = function(event) {
 
 // --- VIDEO LESSONS SYSTEM ---
 let allVideoLessons = [];
+window.userCompletedLessons = [];
 
 window.getYouTubeId = function(url) {
     if (!url) return '';
@@ -2094,9 +2150,12 @@ function renderVideoGrid(videos) {
         const titleSafe = video.title ? video.title.replace(/'/g, "\\'") : '';
         const descSafe = video.description ? video.description.replace(/'/g, "\\'").replace(/\n/g, ' ') : '';
         const urlSafe = video.videoUrl ? video.videoUrl.replace(/'/g, "\\'") : '';
+        const videoIdSafe = video.id ? video.id.replace(/'/g, "\\'") : '';
+        const isCompleted = window.userCompletedLessons && window.userCompletedLessons.includes(video.id);
 
         return `
-            <div class="video-card glass-card" onclick="playVideo('${titleSafe}', '${urlSafe}', '${descSafe}')">
+            <div class="video-card glass-card" onclick="playVideo('${videoIdSafe}', '${titleSafe}', '${urlSafe}', '${descSafe}')" style="position:relative;">
+                ${isCompleted ? '<div style="position:absolute; top:-10px; right:-10px; background:var(--success-color); color:white; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; z-index:10; font-size:18px; box-shadow:0 2px 10px rgba(0,0,0,0.2);"><i class="ph-bold ph-check"></i></div>' : ''}
                 <div class="video-thumbnail-container">
                     <img src="${thumbnail}" class="video-thumbnail-img" alt="${video.title}">
                     <div class="video-play-overlay">
@@ -2115,7 +2174,8 @@ function renderVideoGrid(videos) {
     }).join('');
 }
 
-window.playVideo = function(title, url, description) {
+window.playVideo = function(videoId, title, url, description) {
+    window.currentVideoId = videoId;
     const playerContainer = document.getElementById('video-player-container');
     const iframe = document.getElementById('video-player-iframe');
     const titleEl = document.getElementById('current-playing-title');
@@ -2173,7 +2233,7 @@ window.closeVideoPlayer = function() {
     if (iframe) iframe.src = '';
 };
 
-window.submitVideoMCQ = function(btn, isCorrect) {
+window.submitVideoMCQ = async function(btn, isCorrect) {
     if (btn.classList.contains('disabled')) return;
     
     const container = document.getElementById('video-mcq-options');
@@ -2187,6 +2247,26 @@ window.submitVideoMCQ = function(btn, isCorrect) {
         btn.style.background = 'var(--success-color)';
         btn.style.color = '#fff';
         addXP(20, "Answered Video MCQ correctly!");
+        
+        // Progress Tracking
+        const userId = localStorage.getItem('firebase_user_id');
+        if (window.currentVideoId && window.userCompletedLessons && !window.userCompletedLessons.includes(window.currentVideoId)) {
+            window.userCompletedLessons.push(window.currentVideoId);
+            if (userId && window.firebaseDB && window.firebaseUpdateDoc) {
+                try {
+                    const userRef = window.firebaseDoc(window.firebaseDB, "users", userId);
+                    await window.firebaseUpdateDoc(userRef, { completed_lessons: window.userCompletedLessons });
+                } catch(e) { console.error("Error saving completed lessons:", e); }
+            }
+            if (window.filterVideoLessons) {
+                const activeChip = document.querySelector('.filter-chip.active');
+                const cat = activeChip ? (activeChip.innerText.toLowerCase() === 'all' ? 'all' : activeChip.innerText) : 'all';
+                window.filterVideoLessons(cat);
+            }
+            const lsEl = document.getElementById('profile-stat-lessons');
+            if (lsEl) lsEl.innerText = window.userCompletedLessons.length;
+        }
+
         if (window.Telegram && window.Telegram.WebApp) {
             window.Telegram.WebApp.showAlert("Correct! +20 XP earned.");
         }
