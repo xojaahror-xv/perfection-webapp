@@ -2025,16 +2025,16 @@ window.loadLeaderboard = async function() {
     try {
         if (!window.firebaseDB) throw new Error("Firebase not ready");
 
-        // Fetch all users
         const usersSnap = await window.firebaseGetDocs(window.firebaseCollection(window.firebaseDB, "users"));
         let usersList = [];
         usersSnap.forEach(doc => {
             const d = doc.data();
+            const displayName = d.full_name || d.name || 'Unknown';
             usersList.push({
                 id: doc.id,
-                name: d.name || 'Unknown',
+                name: displayName,
                 xp: d.xp || 0,
-                avatar: d.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(d.name || 'U')}&background=random`
+                avatar: d.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=random&color=fff`
             });
         });
 
@@ -2069,7 +2069,7 @@ window.loadLeaderboard = async function() {
             podiumHtml += `
                 <div class="podium-item third" style="margin-top: 30px;">
                     <div class="avatar-circle"><img src="${usersList[2].avatar}" alt="Avatar"></div>
-                    <div class="podium-rank" style="background:#cd7f32; color:white; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:-10px auto 5px; font-size:12px; font-weight:700; z-index:2; position:relative; border:2px solid var(--bg-main);">3</div>
+                    <div class="podium-rank bronze">3</div>
                     <div class="podium-name">${usersList[2].name}</div>
                     <div class="podium-score">${usersList[2].xp} xp</div>
                 </div>

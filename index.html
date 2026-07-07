@@ -520,24 +520,75 @@
                     <button class="btn-icon" onclick="switchTab('profile')" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
                     <h2 style="margin:0;">Settings</h2>
                 </div>
-                <div class="profile-menu mt-4">
+                
+                <h4 style="margin: 20px 20px 10px; color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Account</h4>
+                <div class="profile-menu">
+                    <div class="menu-item" onclick="openEditProfileModal()">
+                        <div class="menu-item-left">
+                            <div class="menu-icon" style="background:var(--primary-gradient); color:white;"><i class="ph ph-user-circle"></i></div>
+                            <span>Edit Profile</span>
+                        </div>
+                        <i class="ph ph-caret-right"></i>
+                    </div>
+                </div>
+
+                <h4 style="margin: 20px 20px 10px; color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Preferences</h4>
+                <div class="profile-menu">
                     <div class="menu-item" style="display:flex; justify-content:space-between; align-items:center;">
-                          <div class="menu-item-left">
-                              <div class="menu-icon bg-purple" style="background:#8b5cf6; color:white;"><i class="ph ph-moon"></i></div>
-                              <span>Dark Mode</span>
-                          </div>
-                          <label class="switch">
-                              <input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()">
-                              <span class="slider"></span>
-                          </label>
-                      </div>
-                      <div class="menu-item" onclick="openEditProfileModal()">
-                          <div class="menu-item-left">
-                              <div class="menu-icon bg-blue" style="background:#2563eb; color:white;"><i class="ph ph-user-circle"></i></div>
-                              <span>Edit Profile</span>
-                          </div>
-                          <i class="ph ph-caret-right"></i>
-                      </div>
+                        <div class="menu-item-left">
+                            <div class="menu-icon bg-purple" style="background:var(--purple-color); color:white;"><i class="ph ph-moon"></i></div>
+                            <span>Dark Mode</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="menu-item" style="display:flex; justify-content:space-between; align-items:center;">
+                        <div class="menu-item-left">
+                            <div class="menu-icon" style="background:var(--success-color); color:white;"><i class="ph ph-bell-ringing"></i></div>
+                            <span>Notifications</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="menu-item" style="display:flex; justify-content:space-between; align-items:center;">
+                        <div class="menu-item-left">
+                            <div class="menu-icon" style="background:var(--secondary-color); color:white;"><i class="ph ph-speaker-high"></i></div>
+                            <span>Sound Effects</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-left">
+                            <div class="menu-icon" style="background:#0ea5e9; color:white;"><i class="ph ph-translate"></i></div>
+                            <span>Language</span>
+                        </div>
+                        <span style="color:var(--text-muted); font-size: 14px;">English <i class="ph ph-caret-right"></i></span>
+                    </div>
+                </div>
+
+                <h4 style="margin: 20px 20px 10px; color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Support</h4>
+                <div class="profile-menu">
+                    <div class="menu-item">
+                        <div class="menu-item-left">
+                            <div class="menu-icon" style="background:#64748b; color:white;"><i class="ph ph-question"></i></div>
+                            <span>Help & FAQ</span>
+                        </div>
+                        <i class="ph ph-caret-right"></i>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-left">
+                            <div class="menu-icon" style="background:#64748b; color:white;"><i class="ph ph-shield-check"></i></div>
+                            <span>Privacy Policy</span>
+                        </div>
+                        <i class="ph ph-caret-right"></i>
+                    </div>
                 </div>
             </section>
 
