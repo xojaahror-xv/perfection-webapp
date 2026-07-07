@@ -1959,11 +1959,32 @@ window.loadVideoLessons = async function() {
 
             filterVideoLessons('all');
         } else {
-            grid.innerHTML = `<div class="text-center w-100" style="grid-column:1/-1; color:var(--text-muted);">Firebase connection not ready.</div>`;
+            grid.innerHTML = `<div class="text-center w-100" style="grid-column:1/-1; color:var(--text-muted);">Firebase connection not ready. Using offline mode.</div>`;
+            // Trigger fallback manually if no firebase
+            throw new Error("No Firebase");
         }
     } catch (e) {
-        console.error("Error loading video lessons:", e);
-        grid.innerHTML = `<div class="text-center w-100" style="grid-column:1/-1; color:var(--danger-color);">Failed to load videos. Check console.</div>`;
+        console.error("Error loading video lessons, using fallback:", e);
+        
+        // Use Mock Videos if Firestore fails
+        allVideoLessons = [
+            { id: 'mock1', level: 'Grammar', title: 'All English Tenses in 20 Minutes', description: 'Master all 12 English tenses easily with this comprehensive guide.', videoUrl: 'https://www.youtube.com/embed/84weoE-DmcE', thumbnail: 'https://img.youtube.com/vi/84weoE-DmcE/maxresdefault.jpg' },
+            { id: 'mock2', level: 'Vocabulary', title: '100+ Alternatives to VERY', description: 'Stop saying "very" and use these advanced adjectives instead.', videoUrl: 'https://www.youtube.com/embed/aPzXjB194gA', thumbnail: 'https://img.youtube.com/vi/aPzXjB194gA/maxresdefault.jpg' },
+            { id: 'mock3', level: 'IELTS Prep', title: 'IELTS Speaking Band 9 Mock Interview', description: 'Watch a full Band 9 speaking test and learn the strategies.', videoUrl: 'https://www.youtube.com/embed/sRqyH8168xQ', thumbnail: 'https://img.youtube.com/vi/sRqyH8168xQ/maxresdefault.jpg' },
+            { id: 'mock4', level: 'Grammar', title: 'Present Simple vs Present Continuous', description: 'Understand the difference and never make mistakes again.', videoUrl: 'https://www.youtube.com/embed/L9AWrJnhsRI', thumbnail: 'https://img.youtube.com/vi/L9AWrJnhsRI/maxresdefault.jpg' },
+            { id: 'mock5', level: 'Vocabulary', title: 'Daily Routine Vocabulary', description: 'Learn words and phrases to describe your daily life.', videoUrl: 'https://www.youtube.com/embed/XqP1mQGgKig', thumbnail: 'https://img.youtube.com/vi/XqP1mQGgKig/maxresdefault.jpg' },
+            { id: 'mock6', level: 'IELTS Prep', title: 'IELTS Reading: True False Not Given', description: 'Master the hardest IELTS Reading question type.', videoUrl: 'https://www.youtube.com/embed/zH3PqG9N6Hw', thumbnail: 'https://img.youtube.com/vi/zH3PqG9N6Hw/maxresdefault.jpg' }
+        ];
+        
+        // Sort and filter normally
+        allVideoLessons.sort((a, b) => {
+            const levelOrder = { 'Grammar': 1, 'Vocabulary': 2, 'IELTS Prep': 3 };
+            const orderA = levelOrder[a.level] || 99;
+            const orderB = levelOrder[b.level] || 99;
+            if (orderA !== orderB) return orderA - orderB;
+            return (a.order || 0) - (b.order || 0);
+        });
+        filterVideoLessons('all');
     }
 };
 
@@ -2023,7 +2044,7 @@ window.saveProfileChanges = async function() {
 
         if (userId && window.firebaseDB) {
             const userRef = window.firebaseDoc(window.firebaseDB, "users", userId);
-            await window.firebaseUpdateDoc(userRef, updates);
+            await window.firebaseSetDoc(userRef, updates, { merge: true });
         }
         
         updateUserUI();
@@ -2380,10 +2401,10 @@ window.selectAvatar = async function(url) {
     document.getElementById('avatar-modal').style.display = 'none';
     
     const userId = localStorage.getItem('firebase_user_id');
-    if (userId && window.firebaseDB && window.firebaseUpdateDoc) {
+    if (userId && window.firebaseDB && window.firebaseSetDoc) {
         try {
             const userRef = window.firebaseDoc(window.firebaseDB, "users", userId);
-            await window.firebaseUpdateDoc(userRef, { avatar: url });
+            await window.firebaseSetDoc(userRef, { avatar: url }, { merge: true });
         } catch(e) { console.error("Avatar save error:", e); }
     }
 };
