@@ -532,7 +532,11 @@ window.syncUserData = async function() {
         document.querySelectorAll('.app-section').forEach(sec => sec.classList.remove('active'));
         const target = document.getElementById(type + '-section');
         if(target) target.classList.add('active');
-        document.querySelector('.app-title').innerText = type === 'alphabet' ? 'Alphabet' : 'Numbers';
+        const titles = { 'alphabet': 'Alphabet', 'numbers': 'Numbers', 'phrases': 'Phrases', 'grammar': 'Grammar' };
+        document.querySelector('.app-title').innerText = titles[type] || 'Resources';
+        if (type === 'numbers' && window.generateNumbers) {
+            window.generateNumbers();
+        }
     };
 
     // Image Upload Logic
@@ -1888,18 +1892,18 @@ window.loadVideoLessons = async function() {
                     {
                         id: 'mock1',
                         level: 'Grammar',
-                        title: 'Present Simple Tense (English Grammar)',
-                        description: 'Learn when and how to use the Present Simple tense easily with English with Lucy.',
-                        videoUrl: 'https://www.youtube.com/embed/L9AWrJnhsRI',
-                        thumbnail: 'https://img.youtube.com/vi/L9AWrJnhsRI/maxresdefault.jpg'
+                        title: 'All English Tenses in 20 Minutes',
+                        description: 'Master all 12 English tenses easily with this comprehensive guide.',
+                        videoUrl: 'https://www.youtube.com/embed/84weoE-DmcE',
+                        thumbnail: 'https://img.youtube.com/vi/84weoE-DmcE/maxresdefault.jpg'
                     },
                     {
                         id: 'mock2',
                         level: 'Vocabulary',
-                        title: '50 Advanced Words You MUST Know',
-                        description: 'Elevate your vocabulary to sound like a native English speaker.',
-                        videoUrl: 'https://www.youtube.com/embed/XqP1mQGgKig',
-                        thumbnail: 'https://img.youtube.com/vi/XqP1mQGgKig/maxresdefault.jpg'
+                        title: '100+ Alternatives to VERY',
+                        description: 'Stop saying "very" and use these advanced adjectives instead.',
+                        videoUrl: 'https://www.youtube.com/embed/aPzXjB194gA',
+                        thumbnail: 'https://img.youtube.com/vi/aPzXjB194gA/maxresdefault.jpg'
                     },
                     {
                         id: 'mock3',
@@ -1908,6 +1912,30 @@ window.loadVideoLessons = async function() {
                         description: 'Watch a full Band 9 speaking test and learn the strategies.',
                         videoUrl: 'https://www.youtube.com/embed/sRqyH8168xQ',
                         thumbnail: 'https://img.youtube.com/vi/sRqyH8168xQ/maxresdefault.jpg'
+                    },
+                    {
+                        id: 'mock4',
+                        level: 'Grammar',
+                        title: 'Present Simple vs Present Continuous',
+                        description: 'Understand the difference and never make mistakes again.',
+                        videoUrl: 'https://www.youtube.com/embed/L9AWrJnhsRI',
+                        thumbnail: 'https://img.youtube.com/vi/L9AWrJnhsRI/maxresdefault.jpg'
+                    },
+                    {
+                        id: 'mock5',
+                        level: 'Vocabulary',
+                        title: 'Daily Routine Vocabulary',
+                        description: 'Learn words and phrases to describe your daily life.',
+                        videoUrl: 'https://www.youtube.com/embed/XqP1mQGgKig',
+                        thumbnail: 'https://img.youtube.com/vi/XqP1mQGgKig/maxresdefault.jpg'
+                    },
+                    {
+                        id: 'mock6',
+                        level: 'IELTS Prep',
+                        title: 'IELTS Reading: True False Not Given',
+                        description: 'Master the hardest IELTS Reading question type.',
+                        videoUrl: 'https://www.youtube.com/embed/zH3PqG9N6Hw',
+                        thumbnail: 'https://img.youtube.com/vi/zH3PqG9N6Hw/maxresdefault.jpg'
                     }
                 ];
             } else {
@@ -2329,3 +2357,122 @@ window.processMockPayment = async function(method) {
     event.target.innerText = btnText;
     event.target.style.opacity = "1";
 };
+
+// --- AVATAR SELECTION ---
+window.openAvatarModal = function() {
+    const modal = document.getElementById('avatar-modal');
+    const optionsContainer = document.getElementById('avatar-options');
+    if(!modal || !optionsContainer) return;
+    
+    const seeds = ['Felix', 'Aneka', 'Peanut', 'Lucky', 'Simba', 'Loki', 'Garfield', 'Whiskers', 'Coco', 'Socks', 'Oscar', 'Ginger'];
+    let html = '';
+    seeds.forEach(seed => {
+        const url = `https://api.dicebear.com/9.x/avataaars/svg?seed=${seed}&backgroundColor=b6e3f4`;
+        html += `<img src="${url}" onclick="selectAvatar('${url}')" style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.2s;" onmouseover="this.style.borderColor='var(--primary-color)'" onmouseout="this.style.borderColor='transparent'">`;
+    });
+    optionsContainer.innerHTML = html;
+    modal.style.display = 'flex';
+};
+
+window.selectAvatar = async function(url) {
+    const imgEl = document.getElementById('profile-avatar-img');
+    if(imgEl) imgEl.src = url;
+    document.getElementById('avatar-modal').style.display = 'none';
+    
+    const userId = localStorage.getItem('firebase_user_id');
+    if (userId && window.firebaseDB && window.firebaseUpdateDoc) {
+        try {
+            const userRef = window.firebaseDoc(window.firebaseDB, "users", userId);
+            await window.firebaseUpdateDoc(userRef, { avatar: url });
+        } catch(e) { console.error("Avatar save error:", e); }
+    }
+};
+
+// --- DAILY VOCABULARY ---
+window.updateDailyVocab = function() {
+    const vocabList = [
+        { w: "Perseverance", p: "/pɜːsɪˈvɪərəns/", m: "Persistence in doing something despite difficulty." },
+        { w: "Eloquent", p: "/ˈɛləkwənt/", m: "Fluent or persuasive in speaking or writing." },
+        { w: "Meticulous", p: "/mɪˈtɪkjʊləs/", m: "Showing great attention to detail; very careful." },
+        { w: "Resilient", p: "/rɪˈzɪlɪənt/", m: "Able to withstand or recover quickly from difficult conditions." },
+        { w: "Serendipity", p: "/ˌsɛr(ə)nˈdɪpɪti/", m: "The occurrence of events by chance in a happy way." },
+        { w: "Ephemeral", p: "/ɪˈfɛm(ə)rəl/", m: "Lasting for a very short time." },
+        { w: "Tenacious", p: "/tɪˈneɪʃəs/", m: "Tending to keep a firm hold of something; clinging." }
+    ];
+    
+    const dayIndex = new Date().getDay();
+    const word = vocabList[dayIndex % vocabList.length];
+    
+    const wEl = document.querySelector('.vocab-word');
+    const pEl = document.querySelector('.vocab-pronunciation');
+    const mEl = document.querySelector('.vocab-meaning');
+    
+    if(wEl && pEl && mEl) {
+        wEl.innerText = word.w;
+        pEl.innerText = word.p;
+        mEl.innerText = word.m;
+    }
+};
+
+// --- NUMBERS GENERATOR ---
+window.generateNumbers = function() {
+    const container = document.getElementById('numbers-list');
+    if(!container) return;
+    
+    let html = `
+        <div class="converter-box" style="margin-bottom: 20px; padding: 15px; background: var(--bg-card); border-radius: var(--border-radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);">
+            <h4 style="margin-bottom: 10px; font-size: 14px; color: var(--primary-color);">Number Converter</h4>
+            <input type="number" id="num-input" placeholder="Raqam kiriting (masalan, 125)" style="width: 100%; padding: 10px; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); margin-bottom: 10px;" onkeyup="convertNumber(this.value)" oninput="convertNumber(this.value)">
+            <div id="num-output" style="font-weight: bold; font-size: 16px; color: var(--text-main); min-height: 24px;"></div>
+        </div>
+    `;
+
+    const basicNumbers = [
+        {n: 1, w: 'One'}, {n: 2, w: 'Two'}, {n: 3, w: 'Three'}, {n: 4, w: 'Four'}, {n: 5, w: 'Five'},
+        {n: 6, w: 'Six'}, {n: 7, w: 'Seven'}, {n: 8, w: 'Eight'}, {n: 9, w: 'Nine'}, {n: 10, w: 'Ten'},
+        {n: 11, w: 'Eleven'}, {n: 12, w: 'Twelve'}, {n: 13, w: 'Thirteen'}, {n: 14, w: 'Fourteen'}, {n: 15, w: 'Fifteen'},
+        {n: 16, w: 'Sixteen'}, {n: 17, w: 'Seventeen'}, {n: 18, w: 'Eighteen'}, {n: 19, w: 'Nineteen'}, {n: 20, w: 'Twenty'},
+        {n: 30, w: 'Thirty'}, {n: 40, w: 'Forty'}, {n: 50, w: 'Fifty'}, {n: 60, w: 'Sixty'}, {n: 70, w: 'Seventy'},
+        {n: 80, w: 'Eighty'}, {n: 90, w: 'Ninety'}, {n: 100, w: 'One Hundred'}, {n: 1000, w: 'One Thousand'}, {n: 1000000, w: 'One Million'}
+    ];
+
+    basicNumbers.forEach(item => {
+        let nStr = item.n.toLocaleString('en-US');
+        html += `
+            <div class="dict-item" style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid var(--border-color);">
+                <span style="font-weight: 700; color: var(--primary-color);">${nStr}</span>
+                <span style="color: var(--text-main);">${item.w}</span>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+};
+
+window.convertNumber = function(numStr) {
+    const out = document.getElementById('num-output');
+    if(!out) return;
+    if(!numStr) { out.innerText = ''; return; }
+    let num = parseInt(numStr, 10);
+    if(isNaN(num) || num < 0 || num > 999999999) { out.innerText = "Bunday katta yoki noto'g'ri raqam!"; return; }
+    if(num === 0) { out.innerText = 'Zero'; return; }
+    
+    const a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
+    const b = ['', '', 'Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety'];
+
+    function numberToEnglish(n) {
+        if (n < 20) return a[n].trim();
+        if (n < 100) return b[Math.floor(n / 10)] + (n % 10 !== 0 ? "-" + a[n % 10].trim() : "");
+        if (n < 1000) return a[Math.floor(n / 100)].trim() + " Hundred" + (n % 100 !== 0 ? " and " + numberToEnglish(n % 100) : "");
+        if (n < 1000000) return numberToEnglish(Math.floor(n / 1000)) + " Thousand" + (n % 1000 !== 0 ? " " + numberToEnglish(n % 1000) : "");
+        if (n < 1000000000) return numberToEnglish(Math.floor(n / 1000000)) + " Million" + (n % 1000000 !== 0 ? " " + numberToEnglish(n % 1000000) : "");
+        return "Billion and above";
+    }
+    
+    out.innerText = numberToEnglish(num);
+};
+
+// Initialize features on load
+setTimeout(() => {
+    if (window.updateDailyVocab) window.updateDailyVocab();
+}, 1000);
