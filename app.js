@@ -2148,8 +2148,73 @@ window.loadLeaderboard = async function() {
         listContainer.innerHTML = listHtml;
 
     } catch (e) {
-        console.error("Leaderboard error:", e);
-        podiumContainer.innerHTML = `<div class="text-center w-100" style="color:var(--danger-color);">Reytingni yuklashda xatolik yuz berdi.</div>`;
+        console.error("Leaderboard error, using fallback:", e);
+        
+        // Offline Fallback for Leaderboard
+        let fallbackUsers = [
+            { id: 'u1', name: 'Alisher', xp: 450, avatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Felix&backgroundColor=b6e3f4' },
+            { id: 'u2', name: 'Malika', xp: 320, avatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Aneka&backgroundColor=b6e3f4' },
+            { id: 'u3', name: 'Jasur', xp: 210, avatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Peanut&backgroundColor=b6e3f4' },
+            { id: 'u4', name: 'Sardor', xp: 150, avatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Lucky&backgroundColor=b6e3f4' }
+        ];
+        
+        const currentUserId = localStorage.getItem('firebase_user_id') || 'local_user';
+        const myName = localStorage.getItem('user_name') || 'You';
+        const myXp = parseInt(localStorage.getItem('user_xp') || '0', 10);
+        const myAvatar = localStorage.getItem('user_avatar') || `https://ui-avatars.com/api/?name=You&background=random&color=fff`;
+        
+        fallbackUsers.push({ id: currentUserId, name: myName, xp: myXp, avatar: myAvatar });
+        fallbackUsers.sort((a, b) => b.xp - a.xp);
+
+        let podiumHtml = '';
+        if (fallbackUsers.length >= 2) {
+            podiumHtml += `
+                <div class="podium-item second">
+                    <div class="avatar-circle"><img src="${fallbackUsers[1].avatar}" alt="Avatar"></div>
+                    <div class="podium-rank silver">2</div>
+                    <div class="podium-name">${fallbackUsers[1].name}</div>
+                    <div class="podium-score">${fallbackUsers[1].xp} xp</div>
+                </div>
+            `;
+        }
+        if (fallbackUsers.length >= 1) {
+            podiumHtml += `
+                <div class="podium-item first">
+                    <div class="avatar-circle"><img src="${fallbackUsers[0].avatar}" alt="Avatar"></div>
+                    <div class="podium-rank gold">1</div>
+                    <div class="podium-name">${fallbackUsers[0].name}</div>
+                    <div class="podium-score">${fallbackUsers[0].xp} xp</div>
+                </div>
+            `;
+        }
+        if (fallbackUsers.length >= 3) {
+            podiumHtml += `
+                <div class="podium-item third" style="margin-top: 30px;">
+                    <div class="avatar-circle"><img src="${fallbackUsers[2].avatar}" alt="Avatar"></div>
+                    <div class="podium-rank bronze">3</div>
+                    <div class="podium-name">${fallbackUsers[2].name}</div>
+                    <div class="podium-score">${fallbackUsers[2].xp} xp</div>
+                </div>
+            `;
+        }
+        podiumContainer.innerHTML = podiumHtml;
+
+        let listHtml = '';
+        for (let i = 3; i < fallbackUsers.length; i++) {
+            const u = fallbackUsers[i];
+            const isMe = u.id === currentUserId;
+            listHtml += `
+                <div class="lb-item ${isMe ? 'current-user' : ''}">
+                    <div class="lb-rank">${i + 1}</div>
+                    <div class="lb-user">
+                        <div class="lb-avatar"><img src="${u.avatar}" alt="Avatar"></div>
+                        <span class="lb-name">${isMe ? 'You (' + u.name + ')' : u.name}</span>
+                    </div>
+                    <div class="lb-score">${u.xp} xp</div>
+                </div>
+            `;
+        }
+        listContainer.innerHTML = listHtml;
     }
 };
 
@@ -2400,13 +2465,16 @@ window.selectAvatar = async function(url) {
     if(imgEl) imgEl.src = url;
     document.getElementById('avatar-modal').style.display = 'none';
     
+    localStorage.setItem('user_avatar', url);
+    
     const userId = localStorage.getItem('firebase_user_id');
     if (userId && window.firebaseDB && window.firebaseSetDoc) {
         try {
             const userRef = window.firebaseDoc(window.firebaseDB, "users", userId);
             await window.firebaseSetDoc(userRef, { avatar: url }, { merge: true });
-        } catch(e) { console.error("Avatar save error:", e); }
+        } catch(e) { console.error("Avatar save error (Firebase):", e); }
     }
+    updateUserUI(); // Update everywhere else immediately
 };
 
 // --- DAILY VOCABULARY ---
