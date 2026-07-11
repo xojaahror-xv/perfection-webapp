@@ -377,10 +377,8 @@ window.syncUserData = async function() {
             const avatarImg = document.querySelector('.profile-avatar img');
             if (avatarImg) avatarImg.src = avatar;
         }
-    }
-    window.updateUserUI = updateUserUI;
 
-    if (localStorage.getItem('dark_mode') === 'true') {
+        if (localStorage.getItem('dark_mode') === 'true') {
             document.body.classList.add('dark-mode');
             let dmToggle = document.getElementById('dark-mode-toggle');
             if(dmToggle) dmToggle.checked = true;
@@ -428,6 +426,7 @@ window.syncUserData = async function() {
             }
         });
     }
+    window.updateUserUI = updateUserUI;
 
     // Check Login & Daily XP
     if (localStorage.getItem('registered') === 'true') {
