@@ -34,46 +34,23 @@
 
         <main class="app-main">
             <!-- SECTION: AUTH (Registration) -->
-            <!-- SECTION: AUTH NAME -->
-            <section id="auth-name-section" class="app-section active">
+            <section id="auth-section" class="app-section active">
                 <div class="welcome-area text-center" style="margin-top: 40px;">
                     <div class="brand-logo-container mx-auto mb-4" style="margin: 0 auto 20px; text-align: center;">
-                        <img src="logo.jpg" alt="Perfection English School" style="max-width: 250px; width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        <i class="ph-fill ph-graduation-cap" style="font-size: 80px; color: var(--primary-color); drop-shadow: 0 4px 15px rgba(0,0,0,0.1);"></i>
                     </div>
                     <h2>Welcome to our School!</h2>
                     <p>Let's set up your profile</p>
                 </div>
-                <form id="reg-name-form" class="auth-form glass-card" style="margin-top: 30px;">
-                    <div class="form-group mb-4">
+                <form id="reg-main-form" class="auth-form glass-card" style="margin-top: 30px;">
+                    <div class="form-group mb-3">
                         <label>What's your full name?</label>
                         <input type="text" id="reg-name" placeholder="e.g., Azizbek Rustamov" required>
                     </div>
-                    <button type="submit" class="btn-primary w-100" style="padding: 14px; font-size: 16px; display:flex; justify-content:center; align-items:center; gap:8px;">Next <i class="ph ph-arrow-right"></i></button>
-                </form>
-            </section>
-
-            <!-- SECTION: AUTH PHONE -->
-            <section id="auth-phone-section" class="app-section">
-                <div class="section-header" style="display: flex; align-items: center; gap: 10px; margin-top: 20px;">
-                    <button type="button" class="btn-icon" onclick="switchTab('auth-name')" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
-                    <h2 style="margin:0;">Contact Info</h2>
-                </div>
-                <form id="reg-phone-form" class="auth-form glass-card" style="margin-top: 20px;">
-                    <div class="form-group mb-4">
+                    <div class="form-group mb-3">
                         <label>Your Phone Number</label>
                         <input type="tel" id="reg-phone" placeholder="+998" required>
                     </div>
-                    <button type="submit" class="btn-primary w-100" style="padding: 14px; font-size: 16px; display:flex; justify-content:center; align-items:center; gap:8px;">Next <i class="ph ph-arrow-right"></i></button>
-                </form>
-            </section>
-
-            <!-- SECTION: AUTH LEVEL -->
-            <section id="auth-level-section" class="app-section">
-                <div class="section-header" style="display: flex; align-items: center; gap: 10px; margin-top: 20px;">
-                    <button type="button" class="btn-icon" onclick="switchTab('auth-phone')" style="background:transparent; color:var(--text-main);"><i class="ph ph-arrow-left"></i></button>
-                    <h2 style="margin:0;">English Level</h2>
-                </div>
-                <form id="reg-level-form" class="auth-form glass-card" style="margin-top: 20px;">
                     <div class="form-group mb-4">
                         <label>Select your current level</label>
                         <select id="reg-level" required>
@@ -87,7 +64,7 @@
                             <option value="IELTS">IELTS</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn-primary w-100" style="padding: 14px; font-size: 16px; background: var(--success-color); display:flex; justify-content:center; align-items:center; gap:8px;">Finish <i class="ph ph-check"></i></button>
+                    <button type="submit" class="btn-primary w-100" style="padding: 14px; font-size: 16px; display:flex; justify-content:center; align-items:center; gap:8px;">Start Learning <i class="ph ph-rocket-launch"></i></button>
                 </form>
             </section>
 
@@ -762,6 +739,6 @@
         window.firebaseDeleteDoc = deleteDoc;
     </script>
     <script src="tests.js"></script>
-    <script src="app.js?v=7"></script>
+    <script src="app.js?v=8"></script>
 </body>
 </html>

@@ -459,29 +459,13 @@ window.syncUserData = async function() {
         // Show registration section
         const appContainer = document.querySelector('.app-container');
         if (appContainer) appContainer.classList.add('not-registered');
-        switchTab('auth-name');
+        switchTab('auth');
     }
 
     // Registration Form Submit
-    const regNameForm = document.getElementById('reg-name-form');
-    if (regNameForm) {
-        regNameForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            switchTab('auth-phone');
-        });
-    }
-
-    const regPhoneForm = document.getElementById('reg-phone-form');
-    if (regPhoneForm) {
-        regPhoneForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            switchTab('auth-level');
-        });
-    }
-
-    const regLevelForm = document.getElementById('reg-level-form');
-    if (regLevelForm) {
-        regLevelForm.addEventListener('submit', (e) => {
+    const regMainForm = document.getElementById('reg-main-form');
+    if (regMainForm) {
+        regMainForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('reg-name').value;
             const phone = document.getElementById('reg-phone').value;
@@ -498,22 +482,29 @@ window.syncUserData = async function() {
                 appContainer.classList.remove('not-registered');
             }
             
-            // Save to Firebase
-            if (window.firebaseDB) {
+            // Also save to Firebase if available
+            if (window.Telegram && window.Telegram.WebApp && window.firebaseDB && window.firebaseSetDoc) {
                 try {
-                    window.firebaseAddDoc(window.firebaseCollection(window.firebaseDB, "users"), {
-                        name: name,
-                        phone: phone,
-                        level: level,
-                        xp: 50,
-                        streak: 1,
-                        registered_at: new Date().toISOString()
-                    }).then(docRef => {
-                        localStorage.setItem('firebase_user_id', docRef.id);
-                        console.log("Firebase User created: ", docRef.id);
-                    });
-                } catch (e) {
-                    console.log("Firebase not ready yet", e);
+                    const tUser = window.Telegram.WebApp.initDataUnsafe?.user;
+                    if (tUser && tUser.id) {
+                        const uid = String(tUser.id);
+                        localStorage.setItem('firebase_user_id', uid);
+                        const userRef = window.firebaseDoc(window.firebaseDB, "users", uid);
+                        window.firebaseSetDoc(userRef, {
+                            id: uid,
+                            name: name,
+                            full_name: name,
+                            phone: phone,
+                            level: level,
+                            username: tUser.username || '',
+                            xp: 50,
+                            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff`,
+                            completed_lessons: [],
+                            joined_at: new Date().toISOString()
+                        }, { merge: true });
+                    }
+                } catch(err) {
+                    console.error("Firebase save on register failed:", err);
                 }
             }
 
