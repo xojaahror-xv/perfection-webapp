@@ -26,7 +26,7 @@
             <div class="header-right">
                 <div class="streak-badge">
                     <i class="ph-fill ph-fire"></i>
-                    <span>12</span>
+                    <span>0</span>
                 </div>
                 <i class="ph ph-bell"></i>
             </div>
@@ -419,18 +419,15 @@
                         <img src="https://i.pravatar.cc/150?u=2" alt="Profile" id="profile-avatar-img">
                         <button class="edit-avatar" onclick="openAvatarModal()"><i class="ph ph-camera"></i></button>
                     </div>
-                    <h2 class="profile-name">Student</h2>
+                    <h2 class="profile-name"></h2>
                     <p class="profile-phone" style="color:var(--text-muted); font-size:14px; margin-bottom:4px;"></p>
                     <p class="profile-role">Student</p>
-                    <!-- Role Switcher for Demo -->
-                    <button class="role-switch-btn" onclick="toggleRole()">Switch to Teacher Profile (Demo)</button>
                     <!-- Buy Premium Button -->
                     <button class="btn-primary" id="btn-buy-premium" onclick="openPaymentModal()" style="margin-top: 15px; width: 100%; background: linear-gradient(135deg, #FFD700, #F5A623); color: #000; font-weight: 800; border: none; box-shadow: 0 4px 15px rgba(245, 166, 35, 0.4);">
                         <i class="ph-fill ph-crown"></i> Go Premium (One-time)
                     </button>
                 </div>
 
-                <!-- Student Profile Stats -->
                 <!-- Student Profile Stats -->
                 <div id="student-stats" class="profile-stats">
                     <div class="stat-box">
@@ -453,25 +450,6 @@
                 <!-- Streak Calendar Container -->
                 <div id="streak-calendar-container">
                     <!-- Calendar will be injected by JS -->
-                </div>
-
-                <!-- Teacher Profile Stats (Hidden by default) -->
-                <div id="teacher-stats" class="profile-stats" style="display: none;">
-                    <div class="stat-box">
-                        <i class="ph-fill ph-users text-blue"></i>
-                        <span class="stat-value">145</span>
-                        <span class="stat-label">Students</span>
-                    </div>
-                    <div class="stat-box">
-                        <i class="ph-fill ph-chalkboard-teacher text-green"></i>
-                        <span class="stat-value">6</span>
-                        <span class="stat-label">Groups</span>
-                    </div>
-                    <div class="stat-box">
-                        <i class="ph-fill ph-star text-yellow"></i>
-                        <span class="stat-value">4.9</span>
-                        <span class="stat-label">Ranking</span>
-                    </div>
                 </div>
 
                 <div class="profile-menu">
@@ -739,6 +717,6 @@
         window.firebaseDeleteDoc = deleteDoc;
     </script>
     <script src="tests.js"></script>
-    <script src="app.js?v=9"></script>
+    <script src="app.js?v=12"></script>
 </body>
 </html>

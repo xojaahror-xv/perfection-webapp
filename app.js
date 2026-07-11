@@ -1,5 +1,8 @@
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', () => {
+    let userName = localStorage.getItem('user_name');
+    let userPhone = localStorage.getItem('user_phone');
+    let userLevel = localStorage.getItem('user_level');
     
     // Select all nav items and sections
     const navItems = document.querySelectorAll('.nav-item');
@@ -56,6 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.loadVideoLessons) window.loadVideoLessons();
         }
 
+        if (targetId === 'rating') {
+            if (window.loadLeaderboard) window.loadLeaderboard();
+        }
+
         // Update header title based on tab
         const titleEl = document.querySelector('.app-title');
         const titles = {
@@ -69,31 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (titles[targetId]) {
             document.querySelector('.app-title').innerText = titles[targetId];
-        }
-    };
-
-    // Toggle Role Logic for Demo
-    window.toggleRole = function() {
-        const studentStats = document.getElementById('student-stats');
-        const teacherStats = document.getElementById('teacher-stats');
-        const roleText = document.querySelector('.profile-role');
-        const roleBtn = document.querySelector('.role-switch-btn');
-        const titleName = document.querySelector('.profile-name');
-
-        if (studentStats.style.display !== 'none') {
-            // Switch to Teacher
-            studentStats.style.display = 'none';
-            teacherStats.style.display = 'flex';
-            roleText.innerText = "Teacher • Senior";
-            roleBtn.innerText = "Switch to Student Profile (Demo)";
-            titleName.innerText = "Miss Malika";
-        } else {
-            // Switch to Student
-            studentStats.style.display = 'flex';
-            teacherStats.style.display = 'none';
-            roleText.innerText = "Student • Pre-IELTS";
-            roleBtn.innerText = "Switch to Teacher Profile (Demo)";
-            titleName.innerText = "Azizbek Rustamov";
         }
     };
 
@@ -357,19 +339,23 @@ window.syncUserData = async function() {
     };
 
     function updateUserUI() {
-        if (userName) {
+        let currentUserName = localStorage.getItem('user_name') || userName;
+        let currentUserLevel = localStorage.getItem('user_level') || userLevel;
+        let currentUserPhone = localStorage.getItem('user_phone') || userPhone;
+
+        if (currentUserName) {
             const welcomeText = document.querySelector('#home-section .welcome-area h2');
-            if (welcomeText) welcomeText.innerText = 'Hello, ' + userName.split(' ')[0] + ' 👋';
+            if (welcomeText) welcomeText.innerText = 'Hello, ' + currentUserName.split(' ')[0] + ' 👋';
             const profileName = document.querySelector('.profile-name');
-            if (profileName) profileName.innerText = userName;
+            if (profileName) profileName.innerText = currentUserName;
         }
-        if (userLevel) {
+        if (currentUserLevel) {
             const profileRole = document.querySelector('.profile-role');
-            if (profileRole) profileRole.innerText = "Student • " + userLevel;
+            if (profileRole) profileRole.innerText = "Student • " + currentUserLevel;
         }
-        if (userPhone) {
+        if (currentUserPhone) {
             let phoneEl = document.querySelector('.profile-phone');
-            if(phoneEl) phoneEl.innerText = userPhone;
+            if(phoneEl) phoneEl.innerText = currentUserPhone;
         }
         
         let avatar = localStorage.getItem('user_avatar');
@@ -466,56 +452,59 @@ window.syncUserData = async function() {
     if (regMainForm) {
         regMainForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = document.getElementById('reg-name').value;
-            const phone = document.getElementById('reg-phone').value;
-            const level = document.getElementById('reg-level').value;
+            try {
+                const name = document.getElementById('reg-name').value;
+                const phone = document.getElementById('reg-phone').value;
+                const level = document.getElementById('reg-level').value;
 
-            localStorage.setItem('registered', 'true');
-            localStorage.setItem('user_name', name);
-            localStorage.setItem('user_phone', phone);
-            localStorage.setItem('user_level', level);
-            localStorage.setItem('last_login', new Date().toDateString());
+                localStorage.setItem('registered', 'true');
+                localStorage.setItem('user_name', name);
+                localStorage.setItem('user_phone', phone);
+                localStorage.setItem('user_level', level);
+                localStorage.setItem('last_login', new Date().toDateString());
 
-            const appContainer = document.querySelector('.app-container');
-            if (appContainer) {
-                appContainer.classList.remove('not-registered');
-            }
-            
-            // Also save to Firebase if available
-            if (window.Telegram && window.Telegram.WebApp && window.firebaseDB && window.firebaseSetDoc) {
-                try {
-                    const tUser = window.Telegram.WebApp.initDataUnsafe?.user;
-                    if (tUser && tUser.id) {
-                        const uid = String(tUser.id);
-                        localStorage.setItem('firebase_user_id', uid);
-                        const userRef = window.firebaseDoc(window.firebaseDB, "users", uid);
-                        window.firebaseSetDoc(userRef, {
-                            id: uid,
-                            name: name,
-                            full_name: name,
-                            phone: phone,
-                            level: level,
-                            username: tUser.username || '',
-                            xp: 50,
-                            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff`,
-                            completed_lessons: [],
-                            joined_at: new Date().toISOString()
-                        }, { merge: true });
-                    }
-                } catch(err) {
-                    console.error("Firebase save on register failed:", err);
+                const appContainer = document.querySelector('.app-container');
+                if (appContainer) {
+                    appContainer.classList.remove('not-registered');
                 }
-            }
+                
+                // Also save to Firebase if available
+                if (window.Telegram && window.Telegram.WebApp && window.firebaseDB && window.firebaseSetDoc) {
+                    try {
+                        const tUser = window.Telegram.WebApp.initDataUnsafe?.user;
+                        if (tUser && tUser.id) {
+                            const uid = String(tUser.id);
+                            localStorage.setItem('firebase_user_id', uid);
+                            const userRef = window.firebaseDoc(window.firebaseDB, "users", uid);
+                            window.firebaseSetDoc(userRef, {
+                                id: uid,
+                                name: name,
+                                full_name: name,
+                                phone: phone,
+                                level: level,
+                                username: tUser.username || '',
+                                xp: 50,
+                                avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff`,
+                                completed_lessons: [],
+                                joined_at: new Date().toISOString()
+                            }, { merge: true });
+                        }
+                    } catch(err) {
+                        console.error("Firebase save on register failed:", err);
+                    }
+                }
 
-            userName = name;
-            userPhone = phone;
-            userLevel = level;
-            
-            addXP(50); // Welcome bonus
-            alert("Registration successful! +50 XP");
-            
-            updateUserUI();
-            switchTab('home');
+                userName = name;
+                userPhone = phone;
+                userLevel = level;
+                
+                if (window.addXP) window.addXP(50); // Welcome bonus
+                
+                updateUserUI();
+                switchTab('home');
+            } catch (error) {
+                alert("Xatolik (Submit): " + error.message);
+            }
         });
     }
 
@@ -2039,8 +2028,8 @@ window.saveProfileChanges = async function() {
             await window.firebaseSetDoc(userRef, updates, { merge: true });
         }
         
-        updateUserUI();
-        closeEditProfileModal();
+        if (window.updateUserUI) window.updateUserUI();
+        if (window.closeEditProfileModal) window.closeEditProfileModal();
         if (window.Telegram && window.Telegram.WebApp) {
             window.Telegram.WebApp.showAlert("Profile updated successfully!");
         } else {
