@@ -2056,7 +2056,7 @@ window.saveProfileChanges = async function() {
         }
     } catch (e) {
         console.error("Error updating profile:", e);
-        alert("Failed to update profile.");
+        alert("Xatolik sababi: " + e.message);
     } finally {
         if (btn) btn.innerHTML = 'Save';
     }
