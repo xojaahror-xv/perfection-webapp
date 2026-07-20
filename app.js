@@ -1871,52 +1871,44 @@ window.loadVideoLessons = async function() {
                 // Modern Hardcoded Premium Videos Fallback
                 allVideoLessons = [
                     {
-                        id: 'mock1',
+                        id: 'ef_zamon_1',
                         level: 'Grammar',
-                        title: 'All English Tenses in 20 Minutes',
-                        description: 'Master all 12 English tenses easily with this comprehensive guide.',
-                        videoUrl: 'https://www.youtube.com/embed/84weoE-DmcE',
-                        thumbnail: 'https://img.youtube.com/vi/84weoE-DmcE/maxresdefault.jpg'
+                        title: "Ingliz tilida zamonlarni o'rganishni oson usuli",
+                        description: 'Zamonlarni tez va oson o\'rganish uchun English Focus maxsus darsi.',
+                        videoUrl: 'https://www.youtube.com/embed/H9zjZeJ4f_w',
+                        thumbnail: 'https://img.youtube.com/vi/H9zjZeJ4f_w/hqdefault.jpg'
                     },
                     {
-                        id: 'mock2',
-                        level: 'Vocabulary',
-                        title: '100+ Alternatives to VERY',
-                        description: 'Stop saying "very" and use these advanced adjectives instead.',
-                        videoUrl: 'https://www.youtube.com/embed/aPzXjB194gA',
-                        thumbnail: 'https://img.youtube.com/vi/aPzXjB194gA/maxresdefault.jpg'
-                    },
-                    {
-                        id: 'mock3',
-                        level: 'IELTS Prep',
-                        title: 'IELTS Speaking Band 9 Mock Interview',
-                        description: 'Watch a full Band 9 speaking test and learn the strategies.',
-                        videoUrl: 'https://www.youtube.com/embed/sRqyH8168xQ',
-                        thumbnail: 'https://img.youtube.com/vi/sRqyH8168xQ/maxresdefault.jpg'
-                    },
-                    {
-                        id: 'mock4',
+                        id: 'ef_zamon_2',
                         level: 'Grammar',
-                        title: 'Present Simple vs Present Continuous',
-                        description: 'Understand the difference and never make mistakes again.',
-                        videoUrl: 'https://www.youtube.com/embed/L9AWrJnhsRI',
-                        thumbnail: 'https://img.youtube.com/vi/L9AWrJnhsRI/maxresdefault.jpg'
+                        title: 'Present Simple Zamoni',
+                        description: 'Hozirgi oddiy zamon qoidalari va ishlatilish o\'rinlari.',
+                        videoUrl: 'https://www.youtube.com/embed/iNU-Qra30Fs',
+                        thumbnail: 'https://img.youtube.com/vi/iNU-Qra30Fs/hqdefault.jpg'
                     },
                     {
-                        id: 'mock5',
-                        level: 'Vocabulary',
-                        title: 'Daily Routine Vocabulary',
-                        description: 'Learn words and phrases to describe your daily life.',
-                        videoUrl: 'https://www.youtube.com/embed/XqP1mQGgKig',
-                        thumbnail: 'https://img.youtube.com/vi/XqP1mQGgKig/maxresdefault.jpg'
+                        id: 'ef_zamon_3',
+                        level: 'Grammar',
+                        title: 'Present Continuous Zamoni',
+                        description: 'Hozirgi davomiy zamonni English Focus bilan o\'rganing.',
+                        videoUrl: 'https://www.youtube.com/embed/EpjMXY04GJU',
+                        thumbnail: 'https://img.youtube.com/vi/EpjMXY04GJU/hqdefault.jpg'
                     },
                     {
-                        id: 'mock6',
-                        level: 'IELTS Prep',
-                        title: 'IELTS Reading: True False Not Given',
-                        description: 'Master the hardest IELTS Reading question type.',
-                        videoUrl: 'https://www.youtube.com/embed/zH3PqG9N6Hw',
-                        thumbnail: 'https://img.youtube.com/vi/zH3PqG9N6Hw/maxresdefault.jpg'
+                        id: 'ef_zamon_4',
+                        level: 'Grammar',
+                        title: 'Past Simple Zamoni',
+                        description: 'O\'tgan zamon haqida batafsil ma\'lumot va misollar.',
+                        videoUrl: 'https://www.youtube.com/embed/T7g8r8Jxa3w',
+                        thumbnail: 'https://img.youtube.com/vi/T7g8r8Jxa3w/hqdefault.jpg'
+                    },
+                    {
+                        id: 'ef_zamon_5',
+                        level: 'Grammar',
+                        title: 'Present Perfect Zamoni',
+                        description: 'Present Perfect qachon va qanday ishlatilishi haqida.',
+                        videoUrl: 'https://www.youtube.com/embed/8A-IouiJJ-g',
+                        thumbnail: 'https://img.youtube.com/vi/8A-IouiJJ-g/hqdefault.jpg'
                     }
                 ];
             } else {
@@ -1949,12 +1941,11 @@ window.loadVideoLessons = async function() {
         
         // Use Mock Videos if Firestore fails
         allVideoLessons = [
-            { id: 'mock1', level: 'Grammar', title: 'All English Tenses in 20 Minutes', description: 'Master all 12 English tenses easily with this comprehensive guide.', videoUrl: 'https://www.youtube.com/embed/84weoE-DmcE', thumbnail: 'https://img.youtube.com/vi/84weoE-DmcE/maxresdefault.jpg' },
-            { id: 'mock2', level: 'Vocabulary', title: '100+ Alternatives to VERY', description: 'Stop saying "very" and use these advanced adjectives instead.', videoUrl: 'https://www.youtube.com/embed/aPzXjB194gA', thumbnail: 'https://img.youtube.com/vi/aPzXjB194gA/maxresdefault.jpg' },
-            { id: 'mock3', level: 'IELTS Prep', title: 'IELTS Speaking Band 9 Mock Interview', description: 'Watch a full Band 9 speaking test and learn the strategies.', videoUrl: 'https://www.youtube.com/embed/sRqyH8168xQ', thumbnail: 'https://img.youtube.com/vi/sRqyH8168xQ/maxresdefault.jpg' },
-            { id: 'mock4', level: 'Grammar', title: 'Present Simple vs Present Continuous', description: 'Understand the difference and never make mistakes again.', videoUrl: 'https://www.youtube.com/embed/L9AWrJnhsRI', thumbnail: 'https://img.youtube.com/vi/L9AWrJnhsRI/maxresdefault.jpg' },
-            { id: 'mock5', level: 'Vocabulary', title: 'Daily Routine Vocabulary', description: 'Learn words and phrases to describe your daily life.', videoUrl: 'https://www.youtube.com/embed/XqP1mQGgKig', thumbnail: 'https://img.youtube.com/vi/XqP1mQGgKig/maxresdefault.jpg' },
-            { id: 'mock6', level: 'IELTS Prep', title: 'IELTS Reading: True False Not Given', description: 'Master the hardest IELTS Reading question type.', videoUrl: 'https://www.youtube.com/embed/zH3PqG9N6Hw', thumbnail: 'https://img.youtube.com/vi/zH3PqG9N6Hw/maxresdefault.jpg' }
+            { id: 'ef_zamon_1', level: 'Grammar', title: 'Ingliz tilida zamonlarni o\'rganishni oson usuli', description: 'Zamonlarni tez va oson o\'rganish uchun English Focus maxsus darsi.', videoUrl: 'https://www.youtube.com/embed/H9zjZeJ4f_w', thumbnail: 'https://img.youtube.com/vi/H9zjZeJ4f_w/hqdefault.jpg' },
+            { id: 'ef_zamon_2', level: 'Grammar', title: 'Present Simple Zamoni', description: 'Hozirgi oddiy zamon qoidalari va ishlatilish o\'rinlari.', videoUrl: 'https://www.youtube.com/embed/iNU-Qra30Fs', thumbnail: 'https://img.youtube.com/vi/iNU-Qra30Fs/hqdefault.jpg' },
+            { id: 'ef_zamon_3', level: 'Grammar', title: 'Present Continuous Zamoni', description: 'Hozirgi davomiy zamonni English Focus bilan o\'rganing.', videoUrl: 'https://www.youtube.com/embed/EpjMXY04GJU', thumbnail: 'https://img.youtube.com/vi/EpjMXY04GJU/hqdefault.jpg' },
+            { id: 'ef_zamon_4', level: 'Grammar', title: 'Past Simple Zamoni', description: 'O\'tgan zamon haqida batafsil ma\'lumot va misollar.', videoUrl: 'https://www.youtube.com/embed/T7g8r8Jxa3w', thumbnail: 'https://img.youtube.com/vi/T7g8r8Jxa3w/hqdefault.jpg' },
+            { id: 'ef_zamon_5', level: 'Grammar', title: 'Present Perfect Zamoni', description: 'Present Perfect qachon va qanday ishlatilishi haqida.', videoUrl: 'https://www.youtube.com/embed/8A-IouiJJ-g', thumbnail: 'https://img.youtube.com/vi/8A-IouiJJ-g/hqdefault.jpg' }
         ];
         
         // Sort and filter normally
