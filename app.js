@@ -2272,7 +2272,7 @@ window.playVideo = function(videoId, title, url, description) {
     const ytId = getYouTubeId(url);
     let embedUrl = '';
     if (ytId) {
-        embedUrl = `https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&controls=1&disablekb=1&showinfo=0&iv_load_policy=3`;
+        embedUrl = `https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&controls=1&disablekb=1&showinfo=0&iv_load_policy=3&autoplay=1`;
     } else {
         embedUrl = url;
     }
