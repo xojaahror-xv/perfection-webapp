@@ -961,7 +961,8 @@ window.syncUserData = async function() {
 
     window.submitTest = function(type, level, testNumber, correctAnswers) {
         let correctCount = 0;
-        const radios = document.querySelectorAll('input[type="radio"]:checked');
+        const container = document.getElementById(type + '-content-container');
+        const radios = container.querySelectorAll('input[type="radio"]:checked');
         radios.forEach((radio, index) => {
             if (radio.value === correctAnswers[index]) {
                 correctCount++;
@@ -1828,14 +1829,27 @@ window.uploadAvatar = function(event) {
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            const base64Str = e.target.result;
-            try {
-                localStorage.setItem('user_avatar', base64Str);
-                document.querySelector('.profile-avatar img').src = base64Str;
-                alert("Profil rasmi o'zgartirildi!");
-            } catch (err) {
-                alert("Rasm hajmi juda katta! Iltimos, kichikroq hajmdagi rasm tanlang.");
-            }
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 150;
+                canvas.height = 150;
+                const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+                const x = (canvas.width / scale - img.width) / 2;
+                const y = (canvas.height / scale - img.height) / 2;
+                ctx.drawImage(img, x, y, img.width, img.height, 0, 0, img.width * scale, img.height * scale);
+                
+                const base64Str = canvas.toDataURL('image/jpeg', 0.8);
+                try {
+                    localStorage.setItem('user_avatar', base64Str);
+                    document.querySelector('.profile-avatar img').src = base64Str;
+                    alert("Profil rasmi o'zgartirildi!");
+                } catch (err) {
+                    alert("Rasm hajmi juda katta! Iltimos, kichikroq hajmdagi rasm tanlang.");
+                }
+            };
+            img.src = e.target.result;
         };
         reader.readAsDataURL(file);
     }
